@@ -1,5 +1,5 @@
 <?php
- /* $Id: s_profile.php,v 1.2 2003/06/26 13:46:18 master_mario Exp $ */
+ /* $Id: s_profile.php,v 1.3 2003/07/01 16:33:49 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -33,7 +33,7 @@
 	 return $back;
  }
  // nav_path---------
- $data['nav_path'] = '&nbsp;&gt;&gt;&nbsp;Userprofil';
+ $data['nav_path'] .= '&nbsp;&gt;&gt;&nbsp;Userprofil';
  // nur für registrierte Mitglieder ---
  if( U_ID < 1 )
      message( 'Sorry! Profile k&ouml;nnen nur von registrierten Mitgliedern ge&ouml;ffnet werden.', 'Rechte', 0 );

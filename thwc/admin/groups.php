@@ -1,5 +1,5 @@
 <?php
- /* $Id: groups.php,v 1.4 2003/06/17 20:19:21 master_mario Exp $ */
+ /* $Id: groups.php,v 1.5 2003/07/01 16:35:28 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -22,78 +22,66 @@
  if( isset( $_POST['action'] ) ) $action=$_POST['action'];
  if( isset( $_GET['action'] ) )  $action=$_GET['action'];
  $data['work'] = '';
-
- /* permission constants */
+ 
  define('P_VIEW', 1 << 0);
  define('P_REPLY', 1 << 1);
  define('P_POSTNEW', 1 << 2);
  define('P_CLOSE', 1 << 3);
- define('P_DELTHREAD', 1 << 4);
- define('P_OMOVE', 1 << 5);
- define('P_DELPOST', 1 << 6);
- define('P_EDIT', 1 << 7);
- define('P_OCLOSE', 1 << 8);
- define('P_ODELTHREAD', 1 << 9);
- define('P_ODELPOST', 1 << 10);
- define('P_OEDIT', 1 << 11);
- define('P_TOP', 1 << 12);
- define('P_EDITCLOSED', 1 << 13);
- define('P_IP', 1 << 14);
- define('P_EDITTOPIC', 1 << 15);
- define('P_NOFLOODPROT', 1 << 16);
- define('P_NOEDITLIMIT', 1 << 17);
- define('P_CANSEEINVIS', 1 << 18);
- define('P_NOPMLIMIT', 1 << 19);
- define('P_INTEAM', 1 << 20);
- define('P_CEVENT', 1 << 21);
- define('P_SHOWDELETED', 1 << 22);
- define('P_POLLNEW', 1 << 23);
- define('P_DELPOLL', 1 << 24);
- define('P_CLOSEPOLL', 1 << 25);
- define('P_EDITPOLL', 1 << 26);
- define('P_ODELPOLL', 1 << 27);
- define('P_OCLOSEPOLL', 1 << 28);
- define('P_OEDITPOLL', 1 << 29);
- define('P_OMOVEPOLL', 1 << 30);
- /* and descriptions. ( REQUIRED! )*/
+ define('P_MOVE', 1 << 4);
+ define('P_TDELETE', 1 << 5);
+ define('P_TOP', 1 << 6);
+ define('P_EDITTOPIC', 1 << 7);
+ define('P_EDIT', 1 << 8);
+ define('P_OEDIT', 1 << 9);
+ define('P_DELPOST', 1 << 10);
+ define('P_ODELPOST', 1 << 11);
+ define('P_EDITCLOSED', 1 << 12);
+ define('P_IP', 1 << 13);
+ define('P_NOFLOODPROT', 1 << 14);
+ define('P_NOEDITLIMIT', 1 << 15);
+ define('P_CANSEEINVIS', 1 << 16);
+ define('P_NOPMLIMIT', 1 << 17);
+ define('P_CEVENT', 1 << 18);
+ define('P_SHOWDELETED', 1 << 19);
+ define('P_POLLNEW', 1 << 20);
+ define('P_POLLADD', 1 << 21);
+ define('P_CLOSEPOLL', 1 << 22);
+ define('P_OCLOSEPOLL', 1 << 23);
+ define('P_EDITPOLL', 1 << 24);
+ define('P_OEDITPOLL', 1 << 25);
+
  $p_desc = array(
      P_VIEW => 'Board zeigen?',
      P_REPLY => 'Kann auf Threads antworten?',
      P_POSTNEW => 'Kann neue Threads anlegen?',
-     P_CLOSE => 'Kann <u>eigene</u> Threads schliessen?',
-     P_DELTHREAD => 'Kann <u>eigene</u> Threads löschen?',
-     P_DELPOST => 'Kann <u>eigene</u> Posts löschen?',
-     P_EDIT => 'Kann <u>eigene</u> Posts editieren?',
-     P_OMOVE => 'Kann Threads verschieben?',
-     P_OCLOSE => 'Kann Threads anderer schliessen?',
-     P_ODELTHREAD => 'Kann Threads anderer l&ouml;schen?',
-     P_ODELPOST => 'Kann Posts anderer l&ouml;schen?',
-     P_OEDIT => 'Kann Threads anderer editieren?',
+     P_CLOSE => 'Kann Threads schliessen?',
+     P_MOVE => 'Kann Threads verschieben?',
+     P_TDELETE => 'Kann Threads löschen?',
      P_TOP => 'Kann Threads *fest* machen',
+     P_EDITTOPIC => 'Kann Threadtopics editieren?',
+     P_EDIT => 'Kann <u>eigene</u> Posts editieren?',
+     P_OEDIT => 'Kann Posts <u>Anderer</u> editieren?',
+     P_DELPOST => 'Kann <u>eigene</u> Posts löschen?',
+     P_ODELPOST => 'Kann Posts <u>Anderer</u> l&ouml;schen?',
      P_EDITCLOSED => 'Kann Posts in geschlossenen Threads editieren?',
      P_IP => "IP's zeigen?",
-     P_EDITTOPIC => 'Kann Threadtopics editieren?',
      P_NOFLOODPROT => 'Keine flood protection?',
      P_NOEDITLIMIT => 'Kein Zeitlimmit f&uuml;r Edits?',
      P_CANSEEINVIS => 'Kann unsichtbare User sehen?',
      P_NOPMLIMIT => "Kein Limit f&uuml;r PM's?",
-     P_INTEAM => 'Auf der Teampage anzeigen?',
      P_CEVENT => 'Kann neue Kalendereintr&auml;ge machen?',
      P_SHOWDELETED => 'Kann gel&ouml;schte Posts und Threads sehen?',
      P_POLLNEW => 'Kann neue Umfragen erstellen?',
-     P_DELPOLL => 'Kann <u>eigene</u> Umfragen l&ouml;schen?',
+     P_POLLADD => 'Kann an Umfragen teilnehmen?',
      P_CLOSEPOLL => 'Kann <u>eigene</u> Umfragen schliessen',
-     P_EDITPOLL => 'Kann <u>eigene</u> Umfragen editieren',
-     P_ODELPOLL => 'Kann Umfragen anderer l&ouml;schen?',
      P_OCLOSEPOLL => 'Kann Umfragen anderer schliessen?',
-     P_OEDITPOLL => 'Kann Umfragen anderer editieren?',
-     P_OMOVEPOLL => 'Kann Umfragen verschieben?',       // nicht mehr verwendet !!!!!!!!!!!
+     P_EDITPOLL => 'Kann <u>eigene</u> Umfragen editieren',
+     P_OEDITPOLL => 'Kann Umfrageoptionen anderer editieren?'
  );
 
  $p_globalonly = array(
      P_CANSEEINVIS => 1,
      P_NOPMLIMIT => 1,
-     P_INTEAM => 1,
      P_CEVENT => 1
  );
  /*FUNKTIONEN*/
@@ -403,7 +391,7 @@
              name='".addslashes($_POST['name'])."',
              accessmask='".$accessmask."',
              title='".addslashes($_POST['title'])."',
-             titlepriority='".$_POST['titlepriority']."'");
+             priority='".$_POST['titlepriority']."'");
          $data['work'] = 'Gruppe wurde angelegt!';
      }
  }
@@ -587,7 +575,7 @@
      $data['work'] .= '<td id="blank"></td>';
      while( list($k, $v) = each($p_desc) )
      {
-         $data['work'] .= '<td id="blank" style="width:20px; text-align:center"><img src="./images/pbar_'.($k).'.png"></td>';
+         $data['work'] .= '<td id="blank" style="width:20px; text-align:center; vertical-align:bottom"><img src="./images/pbar_'.($k).'.gif"></td>';
      }
      $data['work'] .= '</tr>';
      // global perms

@@ -1,5 +1,5 @@
 <?php
-/* $Id: header.inc.php,v 1.10 2003/06/26 13:47:10 master_mario Exp $ */
+/* $Id: header.inc.php,v 1.11 2003/07/01 16:37:21 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -93,6 +93,8 @@
 	 define( "U_PM_COUNT", $a_user['pm_count'] );
 	 define( "U_NO_PM", $a_user['noPM_message'] );
      $data['login'] = '';
+	 db_query("UPDATE ".$pref."user SET
+	     user_lastacttime='$board_time' WHERE user_id='".U_ID."'");
  }
  else
  {
@@ -110,12 +112,15 @@
 	 {
 	     $a_guest = db_result( $r_guest );
 	     define( "U_LAST", $a_guest['last_act_time'] );
+		 db_query("UPDATE ".$pref."guest SET
+			 last_act_time='$board_time' WHERE session_id='$sid'");
 	 }
 	 else
 	 {
 	     define( "U_LAST", 0 );
 		 db_query("INSERT INTO ".$pref."guest SET
-		     session_id='$sid'");
+		     session_id='$sid',
+			 last_act_time='$board_time'");
 	 }
  }
 
@@ -128,43 +133,37 @@
          define('P_REPLY', $P[1]);
          define('P_POSTNEW', $P[2]);
          define('P_CLOSE', $P[3]);
-         define('P_DELTHREAD', $P[4]);
-         define('P_OMOVE', $P[5]);
-         define('P_DELPOST', $P[6]);
-         define('P_EDIT', $P[7]);
-         define('P_OCLOSE', $P[8]);
-         define('P_ODELTHREAD', $P[9]);
-         define('P_ODELPOST', $P[10]);
-         define('P_OEDIT', $P[11]);
-         define('P_TOP', $P[12]);
-         define('P_EDITCLOSED', $P[13]);
-         define('P_IP', $P[14]);
-         define('P_EDITTOPIC', $P[15]);
-         define('P_NOFLOODPROT', $P[16]);
-         define('P_NOEDITLIMIT', $P[17]);
-         define('P_POLLNEW', $P[23]);
-         define('P_DELPOLL', $P[24]);
-         define('P_CLOSEPOLL', $P[25]);
-         define('P_EDITPOLL', $P[26]);
-         define('P_ODELPOLL', $P[27]);
-         define('P_OCLOSEPOLL', $P[28]);
-         define('P_OEDITPOLL', $P[29]);
-         define('P_OMOVEPOLL', $P[30]);
+         define('P_MOVE', $P[4]);
+         define('P_TDELETE', $P[5]);
+         define('P_TOP', $P[6]);
+         define('P_EDITTOPIC', $P[7]);
+         define('P_EDIT', $P[8]);
+         define('P_OEDIT', $P[9]);
+         define('P_DELPOST', $P[10]);
+         define('P_ODELPOST', $P[11]);
+         define('P_EDITCLOSED', $P[12]);
+         define('P_IP', $P[13]);
+         define('P_NOFLOODPROT', $P[14]);
+         define('P_NOEDITLIMIT', $P[15]);
+         define('P_POLLNEW', $P[20]);
+         define('P_POLLADD', $P[21]);
+         define('P_CLOSEPOLL', $P[22]);
+         define('P_OCLOSEPOLL', $P[23]);
+         define('P_EDITPOLL', $P[24]);
+         define('P_OEDITPOLL', $P[25]);
     $P = globalPermissions ( U_GROUPIDS );
-         define('P_CANSEEINVIS', $P[18]);
-         define('P_NOPMLIMIT', $P[19]);
-         define('P_INTEAM', $P[20]);
-         define('P_CEVENT', $P[21]);
-         define('P_SHOWDELETED', $P[22]);
+         define('P_CANSEEINVIS', $P[16]);
+         define('P_NOPMLIMIT', $P[17]);
+         define('P_CEVENT', $P[18]);
+         define('P_SHOWDELETED', $P[19]);
  }
  else
  {
     $P = globalPermissions ( U_GROUPIDS );
-         define('P_CANSEEINVIS', $P[18]);
-         define('P_NOPMLIMIT', $P[19]);
-         define('P_INTEAM', $P[20]);
-         define('P_CEVENT', $P[21]);
-         define('P_SHOWDELETED', $P[22]);
+         define('P_CANSEEINVIS', $P[16]);
+         define('P_NOPMLIMIT', $P[17]);
+         define('P_CEVENT', $P[18]);
+         define('P_SHOWDELETED', $P[19]);
  }
  // create head options
  $data['board_name'] = $config['board_name'];

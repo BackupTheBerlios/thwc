@@ -1,5 +1,5 @@
 <?php
- /* $Id: showtopic.php,v 1.4 2003/06/24 17:10:54 master_mario Exp $ */
+ /* $Id: showtopic.php,v 1.5 2003/07/01 16:33:49 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -187,6 +187,8 @@
 			     user_name,
 				 user_title,
 				 user_avatar,
+				 user_ismod,
+				 user_isadmin,
 				 user_hp,
 				 user_join,
 				 signatur,
@@ -209,6 +211,10 @@
 			 $user_name = $user['user_name'];
 			 // title
 		     $user_title = ''; 
+			 if( $user['user_ismod'] == 1 )
+			     $user_title = 'Moderator';
+			 if( $user['user_isadmin'] == 1 )
+			     $user_title = 'Administrator';
 			 if( $user['user_title'] != '' )
 			     $user_title = $user['user_title'];
 			 else
@@ -266,7 +272,7 @@
 		     // signatur
 		     $signatur = '';
 		     if( $user['signatur'] != '' && $user['show_sig'] == 1 )
-		         $signatur = '<br />--------<br />'.parse_code($user['signatur'], 1, 1, 1, 1 );
+		         $signatur = '<br />--------<br />'.parse_code($user['signatur'], 1, 1, $config['signature_code'], 1 );
 		     // useroptionen
 			 $options = '&nbsp;<a href="s_profile.php?username='.$user['user_name'].'">'.( $style['profileimage'] != '' ? '<img src="'.$style['profileimage'].'" border="0" />' : 'Profil' ).'</a>&nbsp;||';
 			 if( $config['pm'] == 1 )

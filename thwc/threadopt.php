@@ -1,5 +1,5 @@
 <?php
- /* $Id: threadopt.php,v 1.3 2003/06/20 10:38:32 master_mario Exp $ */
+ /* $Id: threadopt.php,v 1.4 2003/07/01 16:33:49 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -56,10 +56,7 @@
  // thread öffnen/schliessen -----------------------------------
  elseif( $action == 'openclose' )
  {
-	 $own_thread = 0;
-	 if( U_ID == $thread['autor_id'] )
-	     $own_thread = 1;
-	 if( ( $own_thread == 1 && P_CLOSE == 1 ) || ( $own_thread == 0 && P_OCLOSE == 1 ) )
+	 if( P_CLOSE == 1 )
 	 {
 	     if( $thread['thread_closed'] == 0 )
 		     $close = 1;
@@ -77,16 +74,13 @@
  // delete Thread -------------------------
  elseif( $action == 'delete' )
  {
-	 $own_thread = 0;
-	 if( U_ID == $thread['autor_id'] )
-	 {    $own_thread = 1;    }
 	 if( $thread['deleted'] == 1 )
 	 {
 	     message ( 'Sorry! Dieser Thread ist bereits als gel&ouml;scht makiert.<br />
 		           Echtes l&ouml;schen ist nur im Mod,- oder Admincenter durch Administratoren m&ouml;glich.', 'Fehler', 0 );
 	 }
 	 
-	 if( ( $own_thread == 1 && P_DELTHREAD == 1 ) || ( $own_thread == 0 && P_ODELTHREAD ) )
+	 if( $own_thread == 1 && P_TDELETE == 1 )
 	 {
 	     // Thread löschen
 		 $post_count = $thread['replies']+$thread['replies_del']+1;
@@ -163,7 +157,7 @@
  {
      if( $thread['deleted'] == 1 )
 	     message ( 'Gel&ouml;schte Threads k&ouml;nnen nicht verschoben werden.', 'Rechte', 0 );
-     if( P_OMOVE == 1 )
+     if( P_MOVE == 1 )
 	 {
 	     if( !isset( $send ) )
 		 {

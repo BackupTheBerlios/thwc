@@ -1,5 +1,5 @@
 <?php
- /* $Id: index.php,v 1.2 2003/06/20 10:41:47 master_mario Exp $ */
+ /* $Id: index.php,v 1.3 2003/07/01 16:35:28 master_mario Exp $ */
  include( 'adhead.inc.php' );
  // deleteAdlog ---------------------------------------------------------------------------
  if( $action == 'deleteAdlog' )
@@ -39,7 +39,7 @@
  $data['work'] .= '</tr>';
  $r_log = db_query("SELECT
      *
- FROM ".$pref."adlog ORDER BY logtime DESC");
+ FROM ".$pref."adlog ORDER BY logtime DESC LIMIT 0, 50 ");
  $i=0;
  while( $log = db_result( $r_log ) )
  {

@@ -1,5 +1,5 @@
 <?php
- /* $Id: basics.php,v 1.1 2003/06/12 13:59:25 master_mario Exp $ */
+ /* $Id: basics.php,v 1.2 2003/07/01 16:35:28 master_mario Exp $ */
  include( 'adhead.inc.php' );
 
  if( isset( $_POST['action'] ) ) $action=$_POST['action'];
@@ -19,7 +19,7 @@
      $data['work'] = '<b>Forum Settings</b><br><br>';
      $data['work'] .= '
       <form action="basics.php" method="post">
-       <table width="100%" border="0" cellspacing="3" cellpadding="4">';
+       <table width="100%" border="0" cellspacing="0" cellpadding="4" style="border-collapse:collapse">';
 
      $a_registry = array();
      $r_basics = db_query("SELECT
@@ -47,32 +47,32 @@
      //print(mysql_num_rows($r_registrygroup));
      while( $registrygroup = mysql_fetch_array($r_registrygroup) )
      {
-         $data['work'] .= '
+         $data['work'] .= "
           <tr>
-           <td colspan="2" bgcolor="#999999">
-            <font size="2" color="white"><b>'.$registrygroup['keygroupname'].'</b></font>
+           <td colspan=\"2\" bgcolor=\"#999999\" style=\"border-width:1px\">
+            <font size=\"2\" color=\"white\"><b>".$registrygroup['keygroupname']."</b></font>
            </td>
-          </tr>';
+          </tr>";
           while( list(, $registry) = @each($a_registry[$registrygroup['keygroupid']]) )
           {
               if( $registry['keygroup'] == 0 ) // 0 -> hide
                   continue;
               $data['work'] .= '
                <tr>
-                <td'.($i % 2 == 0 ? ' class="cella"' : ' class="cellb"').' valign="top" width="50%"><b>'.$registry['keydescription'].'</b>';
+                <td'.($i % 2 == 0 ? ' class="cella"' : ' class="cellb"').' valign="top" width="50%" style="border-width:1px"><b>'.$registry['keydescription'].'</b>';
               if( $registry['keydetails'] )
               {
                   $data['work'] .= '<font size="1"><br>'.$registry['keydetails'].'</font>';
               }
               $data['work'] .= '</td>';
               $data['work'] .= '
-               <td'.($i % 2 == 0 ? ' class="cella"' : ' class="cellb"').' valign="top" width="50%">';
+               <td'.($i % 2 == 0 ? ' class="cella"' : ' class="cellb"').' valign="top" width="50%" style="border-width:1px">';
               switch( $registry['keytype'] )
               {
                   case 'boolean':
                       $data['work'] .= '
-                       <input type="radio" name="Xconfig['.$registry['keyname'].']" value="1"' . ( $registry['keyvalue'] ? " checked" : "" ) . ' id="tab">&nbsp;Yes
-                       <input type="radio" name="Xconfig['.$registry['keyname'].']" value="0"' . ( !$registry['keyvalue'] ? " checked" : "" ) . ' id="tab">&nbsp;No';
+                       <input type="radio" name="Xconfig['.$registry['keyname'].']" value="1"' . ( $registry['keyvalue'] ? " checked" : "" ) . ' id="tab">&nbsp;Ja
+                       <input type="radio" name="Xconfig['.$registry['keyname'].']" value="0"' . ( !$registry['keyvalue'] ? " checked" : "" ) . ' id="tab">&nbsp;Nein';
                       break;
                   case 'integer':
                       $data['work'] .= '<input class="tbinput" type="text" size="6" name="Xconfig['.$registry['keyname'].']" value="'.intval($registry['keyvalue']).'" id="border-tab">';

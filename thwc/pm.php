@@ -1,5 +1,5 @@
 <?php
- /* $Id: pm.php,v 1.1 2003/06/24 17:10:25 master_mario Exp $ */
+ /* $Id: pm.php,v 1.2 2003/07/01 16:33:49 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -24,7 +24,7 @@
  
  $TBoard = Get_Template( 'templates/'.$style['styletemplate'].'/board.html' );
  $data['nav_path'] .= '&nbsp;&gt;&gt;&nbsp;<a href="pm.php" class="bg">Privatnachrichten</a>';
-
+ 
  if( U_ID == 0 )
      message( 'Das ist eine Mitgliederfunktion. <a href="register.php">Hier</a> kannst Du Dich registrieren.', 'Rechte', 0 );
  if( $config['pm'] == 0 )
@@ -238,6 +238,7 @@
 	     $TPm = str_replace( '[tagbar]', $tagbar, $TPm );
 	     $TPm = str_replace( '[text]', $text, $TPm );
 	     $TPm = str_replace( '[copy]', $copy, $TPm );
+         $TPm = str_replace( '[max_len]',$config['max_pm_len'], $TPm );
 	 }
 	 else
 	 {
