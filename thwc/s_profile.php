@@ -1,5 +1,5 @@
 <?php
- /* $Id: s_profile.php,v 1.1 2003/06/24 17:10:12 master_mario Exp $ */
+ /* $Id: s_profile.php,v 1.2 2003/06/26 13:46:18 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -62,6 +62,7 @@
 	 user_interests,
 	 user_lastpostid,
 	 user_bday,
+	 user_bday_year,
 	 user_job
  FROM ".$pref."user WHERE user_name='$username'");
  $profile = db_result( $r_user ); 
@@ -230,11 +231,13 @@
      $i++;
  }
  // alter
- if( $profile['user_bday'] != 0 )
+ if( $profile['user_bday'] != '00-00' && $profile['user_bday_year'] != '0000' )
  {
      $row = str_replace( '[bgcolor]', color($i), $line );
      $row = str_replace( '[name]', 'Alter', $row );
-	 $t = $board_time - $profile['user_bday'];
+	 $dat = explode( '-', $profile['user_bday'] ); 
+	 $bday = mktime(0,0,0,$dat[1],$dat[0],$profile['user_bday_year']);
+	 $t = $board_time - $bday;
 	 $t = @bcdiv( $t, 31547600, 0 );
      $row = str_replace( '[value]', $t, $row );
      $table .= $row;

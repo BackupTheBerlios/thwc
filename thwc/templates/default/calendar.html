@@ -1,0 +1,33 @@
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="border-collapse:collapse">
+ <tr>
+  <td class="header">
+   &nbsp;[smallfont]<b>Kalender</b>[smallfontend]
+  </td>
+ </tr>
+ <tr>
+  <form action="calendar.php" method="post">
+  <td class="cellb">
+   [smallfont]&nbsp;&nbsp;Heute ist der [datum] - <a href="calevent.php?m=[month]&y=[year]">Neuer Eintrag</a>[smallfontend]<br /><br />
+   &nbsp;&nbsp;[monate]&nbsp;[jahre]&nbsp;<input type="submit" id="border-tab" value="Los" /><br />
+   <center><a href="calendar.php?y=[thisyear]&m=[lastmonth]">&laquo;</a> <b>[monthyear]</b> <a href="calendar.php?y=[thisyear]&m=[nextmonth]">&raquo;</a></center>
+  </td>
+  </form>
+ </tr>
+</table>
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="border-collapse:collapse">
+ <tr>
+  <td width="14%" style="border-top-width:0px"><b>Sonntag</b></td>
+  <td width="14%" style="border-top-width:0px"><b>Montag</b></td>
+  <td width="14%" style="border-top-width:0px"><b>Dienstag</b></td>
+  <td width="14%" style="border-top-width:0px"><b>Mittwoch</b></td>
+  <td width="14%" style="border-top-width:0px"><b>Donnerstag</b></td>
+  <td width="14%" style="border-top-width:0px"><b>Freitag</b></td>
+  <td width="14%" style="border-top-width:0px"><b>Samstag</b></td>
+ </tr>
+ [calendar]
+ <tr>
+  <td colspan="7" class="header">
+   <center><a href="calendar.php?y=[thisyear]&m=[lastmonth]" class="head">&laquo;</a> <b>[monthyear]</b> <a href="calendar.php?y=[thisyear]&m=[nextmonth]" class="head">&raquo;</a></center>
+  </td>
+ </tr>
+</table>

@@ -1,0 +1,50 @@
+<form action="calevent.php" name="form" method="post">
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="border-collapse:collapse">
+ <tr>
+  <td class="header" colspan="2">&nbsp;[smallfont]<b>Neuer Kalendereintrag</b>[smallfontend]</td>
+ </tr>
+ <tr>
+  <td class="cellb" width="150"><b>&nbsp;Datum</b></td>
+  <td class="cellb">
+   &nbsp;<input type="text" name="event[day]" size="2" maxlength="2" value="[eday]" id="border-tab" />
+   .&nbsp;<input type="text" name="event[month]" size="2" maxlength="2" value="[emonth]" id="border-tab" />
+   .&nbsp;<input type="text" name="event[year]" size="4" maxlength="4" value="[eyear]" id="border-tab" />
+  </td>
+ </tr>
+ <tr>
+  <td class="cella" width="150"><b>&nbsp;Uhrzeit</b><br />[smallfont]&nbsp;optional ( Format 24h )[smallfontend]</td>
+  <td class="cella">
+   &nbsp;<input type="text" name="event[hours]" size="2" maxlength="2" value="[ehours]" id="border-tab" />
+   :&nbsp;<input type="text" name="event[min]" size="2" maxlength="2" value="[emin]" id="border-tab" /> Uhr
+  </td>
+ </tr>
+ <tr>
+  <td class="cellb" width="150"><b>&nbsp;Topic</b></td>
+  <td class="cellb">
+   &nbsp;<input type="text" name="event[topic]" size="50" maxlength="50" value="[etopic]" id="border-tab" />
+  </td>
+ </tr>
+ <tr>
+  <td class="cella" width="150"><b>&nbsp;<a href="bcode.html">Boardcode</a></b></td>
+  <td class="cella">[bcode]</td>
+ </tr>
+ <tr>
+  <td class="cellb" width="150" valign="top"><b>&nbsp;Text</b></td>
+  <td class="cellb">
+   &nbsp;<textarea name="text" cols="50" rows="16" id="border-tab">[etext]</textarea>&nbsp;<a href="javascript:textlen([max_len])">Textl&auml;nge pr&uuml;ffen</a>
+  </td>
+ </tr>
+ <tr>
+  <td class="cellb" width="150" valign="top"><b>&nbsp;Option</b></td>
+  <td class="cellb">
+   &nbsp;<input type="checkbox" name="event[report]" value="1" [ereport]/>&nbsp;[smallfont]Als Event auf Index melden?[smallfontend]
+  </td>
+ </tr>
+ <tr>
+  <td class="header" colspan="2">
+  <input type="hidden" name="send" value="1" />
+   <center><input type="submit" value=" Senden " id="border-tab" /></center>
+  </td>
+ </tr>
+</table>
+</form> 

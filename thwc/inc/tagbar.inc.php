@@ -1,16 +1,15 @@
 <?php
-/* $Id: tagbar.inc.php,v 1.2 2003/06/16 18:10:31 master_mario Exp $ */
+/* $Id: tagbar.inc.php,v 1.3 2003/06/26 13:47:10 master_mario Exp $ */
 $textarea = 'text';
 $form = 'form';
-$laenge = $config['max_post_len'];
 
 $data['javascript'] = "
 var lasttag = '';
 
-function textlen ()
+function textlen (laenge)
 {
  textarea = window.document.forms['$form'].elements['$textarea'];
- alert(textarea.value.length + ' Zeichen (Maximal erlaubte Länge $laenge Zeichen)');
+ alert(textarea.value.length + \" Zeichen (Maximal erlaubte Länge \" + laenge + \" Zeichen)\");
 }
 
 function inserttag(tag)

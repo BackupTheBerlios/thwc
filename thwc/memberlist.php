@@ -1,5 +1,5 @@
 <?php
- /* $Id: memberlist.php,v 1.1 2003/06/24 21:56:28 master_mario Exp $ */
+ /* $Id: memberlist.php,v 1.2 2003/06/26 13:46:18 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -26,7 +26,7 @@
  $TList = Get_Template( 'templates/'.$style['styletemplate'].'/memberlist.html' );
  $TRow = Get_Template( 'templates/'.$style['styletemplate'].'/membersrow.html' );
  // Guest ---------------------------------------------
- if( U_ID < 1 && $config['meberlist'] == 0 )
+ if( U_ID < 1 && $config['guest_memberlist'] == 0 )
      message( 'Die Memberlist ist f&uuml;r G&auml;ste deaktiviert.', 'Rechte', 0 );
  // suchoptionen --------------------------------------
  if( !isset( $method ) )

@@ -1,5 +1,5 @@
 <?php
- /* $Id: reply.php,v 1.4 2003/06/24 17:11:20 master_mario Exp $ */
+ /* $Id: reply.php,v 1.5 2003/06/26 13:46:18 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -26,7 +26,7 @@
  // Flood protection
  if( U_LAST != 0 && U_LAST+$config['flood_protection'] > $board_time )
      message ( 'Du kannst nur alle '.$config['flood_protection'].' Sekunden einen neuen Beitrag senden.', 'Flood protection', 0 );
-
+	
  // replyForm --------------------
  function replyForm( $post, $boardid, $threadid, $postid, $abbonieren, $smi, $code, $method )
  {
@@ -146,6 +146,7 @@
 	 $TReply = str_replace( '[abbo_yes]', $abbo_yes, $TReply );
 	 $TReply = str_replace( '[smil_yes]', $smil_yes, $TReply );
 	 $TReply = str_replace( '[bcode_yes]', $bcode_yes, $TReply );
+	 $TReply = str_replace( '[max_len]', $config['max_post_len'], $TReply );
 	 
      return $TReply;
  }

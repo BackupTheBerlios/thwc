@@ -1,5 +1,5 @@
 <?php
- /* $Id: edit.php,v 1.2 2003/06/24 17:12:02 master_mario Exp $ */
+ /* $Id: edit.php,v 1.3 2003/06/26 13:46:18 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -96,6 +96,7 @@
 	 $TReply = str_replace( '[abbo_yes]', $abbo_yes, $TReply );
 	 $TReply = str_replace( '[smil_yes]', $smil_yes, $TReply );
 	 $TReply = str_replace( '[bcode_yes]', $bcode_yes, $TReply );
+	 $TReply = str_replace( '[max_len]', $config['max_post_len'], $TReply );
 	 
      return $TReply;
  }
