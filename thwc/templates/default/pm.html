@@ -1,0 +1,43 @@
+<form action="pm.php" method="post" name="form">
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="border-collapse:collapse">
+ <tr>
+  <td class="header" colspan="2">&nbsp;[smallfont]<b>Neue Nachricht</b>[smallfontend]</td>
+ </tr>
+ <tr>
+  <td class="cellb" width="150">&nbsp;Empf&auml;nger</td>
+  <td class="cellb">&nbsp;<input type="text" size="30" maxlength="30" name="username" value="[username]" id="border-tab" /></td>
+ </tr>
+ <tr>
+  <td class="cella" width="150">&nbsp;Versandart</td>
+  <td class="cella">&nbsp;<input type="radio" name="art" value="0" [pm] />&nbsp;Private Nachricht&nbsp;
+  [mail]
+  </td>
+ </tr>
+ <tr>
+  <td class="cellb" style="width:150px; vertical-align:top">&nbsp;Titel</td>
+  <td class="cellb">&nbsp;<input type="text" size="100" maxlength="150" name="topic" value="[topic]" id="border-tab" /><br />
+  &nbsp;[smallfont]( min. 3 Zeichen )[smallfontend]
+  </td>
+ </tr>
+ <tr>
+  <td class="cellb" style="width:150px; vertical-align:top">&nbsp;<a href="bcode.html">[smallfont]Formatierungs-<br />&nbsp;m&ouml;glichkeiten[smallfontend]</a></td>
+  <td class="cellb">&nbsp;[tagbar]</td>
+ </tr>
+ <tr>
+  <td class="cellb" style="width:150px; vertical-align:top">&nbsp;Text</td>
+  <td class="cellb">
+   &nbsp;<textarea name="text" cols="70" rows="16" id="border-tab">[text]</textarea>
+  </td>
+ </tr>
+ <tr>
+  <td class="cellb" width="150">&nbsp;Optionen</td>
+  <td class="cellb">&nbsp;<input type="checkbox" name="copy" value="1" [copy] /> 
+  [smallfont]Eine Kopie der Nachricht im Ordner "Postausgang" speichern[smallfontend]</td>
+ </tr>
+ <tr>
+  <td class="header" colspan="2"><center><input type="submit" value=" Private Nachricht senden " id="border-tab" /></center></td>
+ </tr>
+</table>
+<input type="hidden" name="send" value="1" />
+<input type="hidden" name="action" value="new" />
+</form> 

@@ -1,5 +1,5 @@
 <?php
-/* $Id: style.php,v 1.2 2003/06/16 18:08:43 master_mario Exp $ */
+/* $Id: style.php,v 1.3 2003/06/24 17:12:33 master_mario Exp $ */
  include( 'adhead.inc.php' );
  $data['work'] = '<b>Styles</b><br /><br />';
 
@@ -80,9 +80,9 @@
                   <td style="vertical-align:top">
                    <select name="style[styletemplate]" size="1" id="border-tab">';
                  $styletemplate = styleTemplate();
-                 foreach( $styletemplate as $value )
+                 foreach( $styletemplate as $va )
                  {
-                     $back .= '<option value="'.$value.'"'.( isset($style['styletemplate']) && $value == $style['styletemplate'] ? ' checked' : '' ).'>'.$value.'</option>';
+                     $back .= '<option value="'.$va.'"'.( isset($style['styletemplate']) && $va == $style['styletemplate'] ? ' checked' : '' ).'>'.$va.'</option>';
                  }
                  $back .= '</select>
                   </td>';

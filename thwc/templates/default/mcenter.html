@@ -1,0 +1,64 @@
+<form action="pm.php" method="post" name="del">
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="border-collapse:collapse">
+ <tr>
+  <td class="header" colspan="7">
+   &nbsp;[smallfont]<b>Privatnachrichtencenter</b>[smallfontend]
+  </td>
+ </tr>
+ <tr>
+  <td class="cellb">
+   <table width="100%" cellpadding="2" cellspacing="0" border="0">
+    <tr>
+	 <td width="100" class="blank">[smallfont]Posteingang[smallfontend]</td>
+	 <td width="100" class="blank">[smallfont]<b>[in_count]</b>&nbsp;/&nbsp;<b>[full_count]</b>&nbsp;Nachrichten&nbsp;<b>[proz]</b>%&nbsp;belegt[smallfontend]</td>
+	 <td class="blank">&nbsp;</td>
+	</tr>
+    <tr>
+	 <td width="100" class="blank">[smallfont]Postausgang[smallfontend]</td>
+	 <td width="100" class="blank">[smallfont]<b>[out_count]</b>&nbsp;Nachrichten[smallfontend]</td>
+	 <td style="text-align:right" class="blank">
+      <a href="pm.php?action=new">Neue Nachricht</a>&nbsp;||
+	  <a href="pm.php?action=delete&all=1">Alle Nachrichten l&ouml;schen</a>	 
+	 </td>
+	</tr>
+   </table>
+  </td>
+ </tr>
+</table>
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="border-collapse:collapse"> 
+ <tr>
+  <td class="header" colspan="7">[smallfont]&nbsp;<b>Posteingang</b>[smallfontend]</td> 
+ </tr>
+ [in_rows]
+</table>
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="border-collapse:collapse"> 
+ <tr>
+  <td class="header" colspan="7">[smallfont]&nbsp;<b>Postausgang</b>[smallfontend]</td>
+ </tr>
+ [out_rows]
+ <tr>
+<input type="hidden" name="action" value="delete" />
+</form>
+  <td class="header" colspan="7">
+   &nbsp;[smallfont]<b><a href="javascript:document.forms.del.submit();" class="head">makierte Nachrichten l&ouml;schen</a></b>[smallfontend]
+  </td>
+ </tr>
+</table>
+<br />
+[smallfont]
+   &nbsp;<img src="templates/[styletemplate]/images/icon/fullalpha_new.gif" width="15" height="15" border="0"/>
+   &nbsp;&nbsp;ungelesene Nachricht<br />
+   &nbsp;<img src="templates/[styletemplate]/images/icon/fullalpha.gif" width="15" height="15" border="0"/>
+   &nbsp;&nbsp;gelesene Nachricht<br />
+   &nbsp;<img src="templates/[styletemplate]/images/pm_back.gif" width="25" height="15" border="0"/>
+   noch nicht beantwortet (zum Antworten das Icon anklicken)<br />
+   &nbsp;<img src="templates/[styletemplate]/images/pm_back_ok.gif" width="25" height="15" border="0"/>
+   beantwortet (zum Antworten das Icon anklicken)<br />
+   &nbsp;<img src="templates/[styletemplate]/images/pm_quote.gif" width="25" height="15" border="0"/>
+   weiterleiten<br />
+   &nbsp;<img src="templates/[styletemplate]/images/saved.gif" width="15" height="15" border="0"/>
+   &nbsp;&nbsp;Nachricht vor automatischem und manuellem l&ouml;schen gesch&uuml;tzt (um diesen Zustand zu &auml;ndern, bitte das Icon anklicken)<br />
+   &nbsp;<img src="templates/[styletemplate]/images/saved_no.gif" width="15" height="15" border="0"/>
+   &nbsp;&nbsp;Nachricht nicht gesch&uuml;tzt (um diesen Zustand zu &auml;ndern, bitte das Icon anklicken)<br /> 
+   &nbsp;<img src="templates/[styletemplate]/images/read.gif" width="15" height="15" border="0"/>
+   &nbsp;&nbsp;Nachricht vom Empf&auml;nger gelesen.
