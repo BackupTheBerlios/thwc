@@ -1,5 +1,5 @@
 <?php
- /* $Id: portal.php,v 1.1 2003/07/01 21:05:54 master_mario Exp $ */
+ /* $Id: portal.php,v 1.2 2003/07/01 21:13:02 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
