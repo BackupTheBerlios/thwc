@@ -1,5 +1,5 @@
 <?php
- /* $Id: index.php,v 1.1 2003/06/12 13:59:25 master_mario Exp $ */
+ /* $Id: index.php,v 1.2 2003/06/20 10:41:47 master_mario Exp $ */
  include( 'adhead.inc.php' );
  // deleteAdlog ---------------------------------------------------------------------------
  if( $action == 'deleteAdlog' )
@@ -8,12 +8,14 @@
          $data['work'] = 'Dazu hast Du kein Recht, das darf nur der UrAdmin.';
      else
      {
-         $delete = $_POST['delete'];
-         foreach( $delete as $key=>$value )
-         {
-             db_query("DELETE FROM ".$pref."adlog WHERE logtime='$key'");
-         }
-         db_query("OPTIMIZE TABLE ".$pref."adlog");
+         if( isset( $delete ) )
+		 {
+             foreach( $delete as $key=>$value )
+             {
+                 db_query("DELETE FROM ".$pref."adlog WHERE logtime='$key'");
+             }
+             db_query("OPTIMIZE TABLE ".$pref."adlog");
+		 }
      }
  }
  $data['work'] = '

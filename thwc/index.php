@@ -1,5 +1,5 @@
 <?php
- /* $Id: index.php,v 1.6 2003/06/17 20:15:50 master_mario Exp $ */
+ /* $Id: index.php,v 1.7 2003/06/20 10:39:50 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -82,7 +82,7 @@
 			    	 $gif = '';
 		    		 if( U_ID != 0 )
 			    	 {
-				         if( $board['last_post_id'] > $_SESSION[$session_var] && $_SESSION[$session_var] != 0 )
+				         if( $board['last_post_id'] > $_SESSION[$session_var] && $board['last_post_id'] != 0 )
 				         {
 						     $gif = '_new'; 
 							 $new_topic = 1;    

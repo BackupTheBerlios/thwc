@@ -1,5 +1,5 @@
 <?php
- /* $Id: threadopt.php,v 1.2 2003/06/17 20:13:12 master_mario Exp $ */
+ /* $Id: threadopt.php,v 1.3 2003/06/20 10:38:32 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -50,7 +50,7 @@
 		     link='0'
 		 WHERE thread_id='$threadid'");
 		 $source = 'board.php?boardid='.$boardid;
-		 $action .= ' ('.$threadid.')'; 
+		 $action .= ' (t'.$threadid.')'; 
 	 } 
  }   
  // thread öffnen/schliessen -----------------------------------
@@ -69,7 +69,7 @@
 		     thread_closed='$close'
 		 WHERE thread_id='$threadid'");
 		 $source = 'board.php?boardid='.$boardid;
-		 $action .= ' ('.$threadid.')'; 
+		 $action .= ' (t'.$threadid.')'; 
 	 }
 	 else
 	     message ( 'Sorry! Du bist nicht berechtigt diesen Link zu l&ouml;schen.', 'Fehler', 0 );
@@ -89,31 +89,27 @@
 	 if( ( $own_thread == 1 && P_DELTHREAD == 1 ) || ( $own_thread == 0 && P_ODELTHREAD ) )
 	 {
 	     // Thread löschen
-		 $post_count = $thread['replies']+1;
+		 $post_count = $thread['replies']+$thread['replies_del']+1;
 		 $thread_count = 1;
 		 // posts als gelöscht makieren
 		 db_query("UPDATE ".$pref."post SET
 		     deleted='1'
 		 WHERE thread_id='$threadid'");
-		 // thread update
-		 db_query("UPDATE ".$pref."thread SET
-		     deleted='1',
-			 replies='0',
-			 replies_del='$thread[replies]'");
 		 // boarddaten lesen
 		 $r_board = db_query("SELECT
 		     posts,
-			 threads,
 			 posts_del,
+		     threads,
 			 threads_del,
 			 last_post_id
 		 FROM ".$pref."board WHERE board_id='$boardid'");
 		 $board = db_result( $r_board );
-		 // boarddaten anpassen und schreiben
-		 $posts = $board['posts']-$post_count;
-		 $threads = $board['threads']-$thread_count;
-		 $posts_del = $board['posts_del']+$post_count;
-		 $threads_del = $board['threads_del']+$thread_count;
+		 // boarddaten anpassen und schreiben	
+		 $posts = $board['posts']-($thread['replies']+1);
+		 $posts_del = $board['posts_del']+($thread['replies']+1);
+		 $threads = $board['threads']-1;
+		 $threads_del = $board['threads_del']+1;
+		 	 
 		 $more = '';
 		 if( $board['last_post_id'] == $thread['last_post_id'] )
 		 $more = ", 
@@ -124,41 +120,49 @@
 		  last_act_uid='',
 		  last_act_thread=''";
 		 db_query("UPDATE ".$pref."board SET
-		     posts='$posts',
-			 threads='$threads',
-			 posts_del='$posts_del',
-			 threads_del='$threads_del'
+		     posts='".$posts."',
+			 threads='".$threads."',
+			 posts_del='".$posts_del."',
+			 threads_del='".$threads_del."'
 			 ".$more."
-		 WHERE board_id='$boardid'");
-	     // stats lesen
+		 WHERE board_id='$boardid'");	
+		 // statsdaten
 		 $r_stats = db_query("SELECT
 		     posts,
-			 threads,
 			 posts_del,
+			 threads,
 			 threads_del
 		 FROM ".$pref."stats");
 		 $stats = db_result( $r_stats );
-		 // stats ändern und schreiben
-		 $posts = $stats['posts']-$post_count;
-		 $threads = $stats['threads']-$thread_count;
-		 $posts_del = $stats['posts_del']+$post_count;
-		 $threads_del = $stats['threads_del']+$thread_count;
-		 db_query("UPDATE ".$pref."stats SET
-		     posts='$posts',
-			 threads='$threads',
-			 posts_del='$posts_del',
-			 threads_del='$threads_del'");
 		 
+		 $posts = $stats['posts']-($thread['replies']+1);
+		 $posts_del = $stats['posts_del']+($thread['replies']+1);
+		 $threads = $stats['threads']-1;
+		 $threads_del = $stats['threads_del']+1;
+		 
+		 db_query("UPDATE ".$pref."stats SET
+		     posts='".$posts."',
+			 threads='".$threads."',
+			 posts_del='".$posts_del."',
+			 threads_del='".$threads_del."'");
+		 // thread update
+		 db_query("UPDATE ".$pref."thread SET
+		     deleted='1',
+			 replies='0',
+			 replies_del='$thread[replies]'
+		 WHERE thread_id='$threadid'");	 
 		 
 		 $source = 'board.php?boardid='.$boardid;
-		 $action .= ' ('.$threadid.')'; 
+		 $action .= ' (t'.$threadid.')'; 
 	 }
 	 else
 	     message ( 'Sorry! Du bist nicht berechtigt diesen Thread zu l&ouml;schen.', 'Fehler', 0 );
  }
  // move --------------------------------
- if( $action == 'move' )
+ elseif( $action == 'move' )
  {
+     if( $thread['deleted'] == 1 )
+	     message ( 'Gel&ouml;schte Threads k&ouml;nnen nicht verschoben werden.', 'Rechte', 0 );
      if( P_OMOVE == 1 )
 	 {
 	     if( !isset( $send ) )
@@ -244,25 +248,15 @@
 		         posts,
 			     threads,
 			     posts_del,
-			     threads_del,
 			     last_post_id
 		     FROM ".$pref."board WHERE board_id='$new_board'");
 		     $board = db_result( $r_board );
 		     // boarddaten anpassen und schreiben
 		     $post_count = $thread['replies']+1;
-		     if( $thread['deleted'] == 1 )
-		         $post_count = 0;
-		     $thread_count = 1;
-		     if( $thread['deleted'] == 1 )
-		         $thread_count = 0;
+			 $del_count = $thread['replies_del'];
 		     $posts = $board['posts']+$post_count;
-		     $threads = $board['threads']+$thread_count;
-		     $posts_del = $board['posts_del']+$thread['replies_del'];
-		     if( $thread['deleted'] == 1 )
-		         $posts_del++;
-		     $threads_del = 0;
-		     if( $thread['deleted'] == 1 )
-		         $threads_del++;
+		     $threads = $board['threads']+1;
+		     $posts_del = $board['posts_del']+$del_count;
 		     $more = '';
 		     if( $board['last_post_id'] < $thread['last_post_id'] && $thread['deleted'] == 0 )
 		     $more = ", 
@@ -275,8 +269,7 @@
 		     db_query("UPDATE ".$pref."board SET
 		         posts='$posts',
 			     threads='$threads',
-			     posts_del='$posts_del',
-			     threads_del='$threads_del'
+			     posts_del='$posts_del'
 			     ".$more."
 		     WHERE board_id='$new_board'");
 			 // auch beim alten Board
@@ -285,25 +278,15 @@
 		         posts,
 			     threads,
 			     posts_del,
-			     threads_del,
 			     last_post_id
 		     FROM ".$pref."board WHERE board_id='$boardid'");
 		     $board = db_result( $r_board );
 		     // boarddaten anpassen und schreiben
 		     $post_count = $thread['replies']+1;
-		     if( $thread['deleted'] == 1 )
-		         $post_count = 0;
-		     $thread_count = 1;
-		     if( $thread['deleted'] == 1 )
-		         $thread_count = 0;
+			 $del_count = $thread['replies_del'];
 		     $posts = $board['posts']-$post_count;
-		     $threads = $board['threads']-$thread_count;
-		     $posts_del = $board['posts_del']-$thread['replies_del'];
-		     if( $thread['deleted'] == 1 )
-		         $posts_del--;
-		     $threads_del = 0;
-		     if( $thread['deleted'] == 0 )
-		         $threads_del--;
+		     $threads = $board['threads']-1;
+		     $posts_del = $board['posts_del']-$del_count;
 		     $more = '';
 		     if( $board['last_post_id'] == $thread['last_post_id'] )
 		     $more = ", 
@@ -316,19 +299,32 @@
 		     db_query("UPDATE ".$pref."board SET
 		         posts='$posts',
 			     threads='$threads',
-			     posts_del='$posts_del',
-			     threads_del='$threads_del'
+			     posts_del='$posts_del'
 			     ".$more."
-		     WHERE board_id='$boardid'");
-		 
-		 
-		 
-		     $source = 'board.php?boardid='.$boardid;
-		     $action .= ' ('.$threadid.')'; 
+		     WHERE board_id='$boardid'");		 
+		     $source = 'board.php?boardid='.$new_board;
+		     $action .= ' (t'.$threadid.')'; 
 		 }
 	 }
 	 else
 	     message ( 'Sorry! Du bist nicht berechtigt diesen Thread zu verschieben.', 'Fehler', 0 );
+ }
+ // sticky ------------------------------
+ elseif( $action == 'sticky' )
+ {
+     if( !P_TOP )
+	     message( 'Du bist nicht berechtigt Threads *fest* zu machen.', 'Rechte', 0 );
+	 if( $thread['sticky'] == 0 )
+	     $sticky = 1;
+	 else
+	     $sticky = 0;
+	
+	 db_query("UPDATE ".$pref."thread SET
+	     sticky='$sticky'
+	 WHERE thread_id='$threadid'"); 
+	 
+     $source = 'board.php?boardid='.$boardid;
+	 $action .= ' (t'.$threadid.')'; 
  }
  // no action ---------------------------
  else

@@ -1,5 +1,5 @@
 <?php
- /* $Id: reply.php,v 1.2 2003/06/17 20:14:04 master_mario Exp $ */
+ /* $Id: reply.php,v 1.3 2003/06/20 10:39:39 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -33,7 +33,8 @@
 	 global $style, $config, $tagbar;
      $TReply = Get_Template( 'templates/'.$style['styletemplate'].'/reply.html' );
 	 
-     $formula = '<input type="hidden" name="send" value="1" />';
+     $formula = '<form action="reply.php" method="post" name="form">
+	  <input type="hidden" name="send" value="1" />';
 	 switch( $method )
 	 {
 	     case 0:
@@ -328,7 +329,7 @@
 	 if( ( $thread['thread_closed'] == 0 && P_REPLY ) || ( $thread['thread_closed'] == 1 && P_REPLY && P_EDITCLOSED ) )
 	 {}
 	 else
-	     message ( 'Sorry! Du bist nicht berechtigt in diesem Thread zu posten.', 'Rechte', 0 );
+	     message ( 'Sorry! Du bist nicht berechtigt in geschlossenen Threads zu posten.', 'Rechte', 0 );
 	 if( !isset( $send ) )
 	 {
 	     if( !isset( $back ) )
@@ -340,7 +341,7 @@
 		     FROM ".$pref."post WHERE post_id='$postid'");
 		     $a_post = db_result( $r_post );
 		     if( $a_post['user_id'] == 0 )
-                  $new['text'] = '[quote][b]'.$a_post[guest_name].' postete[/b]
+                  $new['text'] = '[quote][b]'.$a_post['guest_name'].' postete[/b]
 '.$a_post['post_text'].'[/quote]';
 		     else
 		     {

@@ -1,5 +1,5 @@
 <?php
- /* $Id: modlog.php,v 1.1 2003/06/12 13:59:34 master_mario Exp $ */
+ /* $Id: modlog.php,v 1.2 2003/06/20 10:41:47 master_mario Exp $ */
  include( 'adhead.inc.php' );
 
  $data['work'] = '<b>Moderatorenlogs</b><br />';
@@ -13,12 +13,14 @@
          $data['work'] = 'Dazu hast Du kein Recht, das darf nur der UrAdmin.';
      else
      {
-         $delete = $_POST['delete'];
-         foreach( $delete as $key=>$value )
-         {
-             db_query("DELETE FROM ".$pref."modlog WHERE logtime='$key'");
-         }
-         db_query("OPTIMIZE TABLE ".$pref."modlog");
+	     if( isset( $delete ) )
+		 {
+             foreach( $delete as $key=>$value )
+             {
+                 db_query("DELETE FROM ".$pref."modlog WHERE logtime='$key'");
+             }
+             db_query("OPTIMIZE TABLE ".$pref."modlog");
+		 }
      }
      $action = '';
  }
