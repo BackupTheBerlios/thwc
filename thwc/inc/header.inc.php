@@ -1,5 +1,5 @@
 <?php
-/* $Id: header.inc.php,v 1.1 2003/06/12 13:59:24 master_mario Exp $ */
+/* $Id: header.inc.php,v 1.2 2003/06/12 21:59:23 master_mario Exp $ */
  error_reporting(E_ALL);
  
  if( isset($HTTP_GET_VARS) ) extract($HTTP_GET_VARS);
@@ -116,6 +116,7 @@
  	define('P_NOPMLIMIT', $P[19]);
  	define('P_INTEAM', $P[20]);
  	define('P_CEVENT', $P[21]);
+ 	define('P_SHOWDELETED', $P[22]);
 	unset( $P );
  }
  
