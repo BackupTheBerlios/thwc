@@ -1,5 +1,5 @@
 <?php
-/* $Id: functions.inc.php,v 1.6 2003/06/20 10:40:57 master_mario Exp $ */
+/* $Id: functions.inc.php,v 1.7 2003/06/24 17:14:08 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -18,6 +18,7 @@
 
         ==============================================
  */
+ // ausgabesteuerung
   function Get_Template ( $template )
   {
       if( !file_exists( $template ) )
@@ -29,7 +30,6 @@
       fclose ( $daten );
       return $show;
   }
-
   function Template ( $show )
   {
       global $data;
@@ -39,7 +39,6 @@
       }
       return $show;
   }
-
   function Output ( $show )
   {
       global $style;
@@ -49,8 +48,7 @@
       }
       return $show;
   }
-
-
+  // db-funktionen
   function db_query ( $query )
   {
       if(!$this->result = mysql_query($query))
@@ -64,7 +62,6 @@
           return $this->result;
       }
   }
-
   function db_result ( $result )
   {
       if(!$result)
@@ -76,12 +73,11 @@
           return mysql_fetch_array ( $result, MYSQL_ASSOC );
       }
   }
-
   function db_rows ( $result )
   {
       return mysql_num_rows ( $result );
   }
-
+  // smily list
   function Create_Smillist ( $checked )
   {
       global $style;
@@ -119,7 +115,7 @@
       $icon_list .= '</td></tr></table>';
       return $icon_list;
   }
-
+  // JUMP-Menu
   function Jump ( $pref )
   {
       $jump_list = '<select name="boardid" size="1" id="tab">';
@@ -148,7 +144,7 @@
       $jump_list .= '</select>';
       return $jump_list;
   }
-
+  // messages 
   function message ( $mess, $messtopic, $mode )
   {
       global $style, $data, $TBoard;
@@ -166,7 +162,7 @@
       echo Output( $TBoard );
           exit;
   }
-
+  // best‰tigungen
   function fragen ( $mess, $messtopic, $url, $antwort )
   {
       global $style, $data, $TBoard;
@@ -181,7 +177,7 @@
       echo Output( $TBoard );
           exit;
   }
-
+  // weiterleitungen
   function message_redirect($msg, $url)
   {
       global $style;
@@ -232,7 +228,7 @@
 		      $err_mess .= ( $err_mess == '' ? '' : '<br />' ).'Das gew&auml;lte Topic ist zu lang.';
 			  $err = 1;
 		  }
-          $legalchars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [|](){}.-_‰ˆ¸ƒ÷‹ﬂ";
+          $legalchars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [|](){}.-_:‰ˆ¸ƒ÷‹ﬂ";
           for( $i = 0; $i < strlen($string); $i++ )
           {
               if( !strstr($legalchars, $string[$i]) )
@@ -318,7 +314,7 @@
               $r_pos_board = db_query("SELECT
                       board_id,
                           board_name
-                  FROM ".$pref."boards ");
+                  FROM ".$pref."board ");
                   $position_board_id = array();
                   $position_board_name = array();
                   while( $a_pos_board = db_result( $r_pos_board ) )
@@ -425,14 +421,14 @@
 
           return $back;
   }
-
+  // datum umwandeln
   function datum ( $timestring )
   {
       global $board_time;
           if( date( "d.m.Y", $board_time ) == date( "d.m.Y", $timestring ) )
               $back = '<b>Heute</b> '.date( "\u\m H:i\U\h\\r", $timestring );
           elseif( date( "d.m.Y", ($board_time-86400) ) == date( "d.m.Y", $timestring ) )
-              $back = '<b>Gestern</b>';
+              $back = '<b>Gestern</b> '.date( "\u\m H:i\U\h\\r", $timestring );
           else
               $back = date( "d.m.Y\, H:i \U\h\\r", $timestring );
           return $back;
@@ -573,7 +569,7 @@
 	  
 	  return $back;
   }
-  // called by edit.php
+  // called by edit.php report.php
   function board_nav( $boardid, $threadid, $nav_path )
   {
       global $TBoard, $pref;
