@@ -1,5 +1,5 @@
 <?php
-/* $Id: header.inc.php,v 1.8 2003/06/24 21:56:39 master_mario Exp $ */
+/* $Id: header.inc.php,v 1.9 2003/06/24 22:25:19 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -171,19 +171,21 @@
  if( U_ID == 0 )
  {
      $data['headoption'] = '|| <a href="register.php">Registrieren</a> ';
+     $data['headoption'] .= ( $config['meberlist'] == 1 ? '|| <a href="memberlist.php">Memberlist</a> ' : '' ).( $config['guest_calenda'] == 1 && $config['calendar'] == 1 ? '|| <a href="calendar.php">Kalender</a> ' : '' ).'|| <a href="help.php">FAQ</a> || '.( $config['guest_search'] == 1 ? '<a href="search.php">Suche</a> ||' : '' ).
+     ( $config['guest_team'] == 1 ? ' <a href="team.php">Team</a> || ' : ' ' ).'<a href="'.$config['board_url'].'">Home</a> ||'.( $config['guest_stats'] == 1 ? ' <a href="stat.php">Statistik</a> ||' : ' ' );
  }
  else
  {
-     $data['headoption'] = '|| <a href="pm.php">Private Messages</a> || <a href="profil.php">Profil</a> ||
-     <a href="logout.php">Logout</a> || <a href="memberlist.php">Memberlist</a> ||
-     <a href="calendar.php">Kalender</a> || <a href="team.php">Team</a> ';
+     $data['headoption'] = ( $config['pm'] == 1 ? '|| <a href="pm.php">Private Messages</a> ' : '' ).'|| <a href="profil.php">Profil</a> ||
+     <a href="logout.php">Logout</a> || <a href="memberlist.php">Memberlist</a> ||'
+     .( $config['calendar'] == 1 ? ' <a href="calendar.php">Kalender</a> ||' : '' ).' <a href="team.php">Team</a> ';
      if( U_ISADMIN == 1 )
          $data['headoption'] .= '|| <a href="mod/index.php" target="blank">Modcenter</a> || <a href="admin/index.php" target="blank">Admincenter</a> ';
      if( U_ISMOD == 1 )
          $data['headoption'] .= '|| <a href="mod/index.php" target="blank">Modcenter</a> ';
+     $data['headoption'] .= '|| <a href="help.php">FAQ</a> || <a href="search.php">Suche</a> ||
+     <a href="'.$config['board_url'].'">Home</a> || <a href="stat.php">Statistik</a> ||';
  }
- $data['headoption'] .= ( $config['meberlist'] == 1 ? '|| <a href="memberlist.php">Memberlist</a> ' : '' ).( $config['guest_calenda'] == 1 ? '|| <a href="calendar.php">Kalender</a> ' : '' ).'|| <a href="help.php">FAQ</a> || '.( $config['guest_search'] == 1 ? '<a href="search.php">Suche</a> ||' : '' ).
- ( $config['guest_team'] == 1 ? ' <a href="team.php">Team</a> || ' : ' ' ).'<a href="'.$config['board_url'].'">Home</a> ||'.( $config['guest_stats'] == 1 ? ' <a href="stat.php">Statistik</a> ||' : ' ' );
  // Nav_path
  $data['nav_path'] = '&nbsp;<a href="'.$config['board_url'].'" class="bg">'.$config['board_name'].'</a>';
  // Board Style
