@@ -1,5 +1,5 @@
 <?php
- /* $Id: reply.php,v 1.3 2003/06/20 10:39:39 master_mario Exp $ */
+ /* $Id: reply.php,v 1.4 2003/06/24 17:11:20 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -162,6 +162,8 @@
  if( db_rows( $r_board ) != 1 )
      message ( 'Sorry! Dieses Board gibt es nicht.', 'Fehler', 0 );
  $board = db_result( $r_board );
+ if( $board['category'] == 0 )
+     message ( 'Sorry! Dieses Board gibt es nicht.', 'Fehler', 0 );
  // category
  $r_category = db_query("SELECT
      category_id,
