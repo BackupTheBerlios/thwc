@@ -1,5 +1,23 @@
 <?php
- /* $Id: groups.php,v 1.1 2003/06/12 13:59:27 master_mario Exp $ */
+ /* $Id: groups.php,v 1.2 2003/06/13 11:47:03 master_mario Exp $ */
+ /*
+          ThWClone - PHP/MySQL Bulletin Board System
+        ==============================================
+          (c) 2003 by
+           Mario Pischel         <mario@aqzone.de>
+
+          download the latest version:
+          https://developer.berlios.de/projects/thwc/
+
+          This  program is  free  software;  you can
+          redistribute it and/or modify it under the
+          terms of the GNU General Public License as
+          published by the Free Software Foundation;
+          either  version 2 of  the License,  or (at
+          your option) any later version.
+
+        ==============================================
+ */
  include( 'adhead.inc.php' );
  if( isset( $_POST['action'] ) ) $action=$_POST['action'];
  if( isset( $_GET['action'] ) )  $action=$_GET['action'];
@@ -37,7 +55,6 @@
  define('P_OCLOSEPOLL', 1 << 28);
  define('P_OEDITPOLL', 1 << 29);
  define('P_OMOVEPOLL', 1 << 30);
-
  /* and descriptions. ( REQUIRED! )*/
  $p_desc = array(
      P_VIEW => 'Board zeigen?',
@@ -376,7 +393,7 @@
          $accessmask = 0;
          /* create accessmask */
          foreach( $p_desc as $key=>$value )
-         {
+         { 
              if( $_POST['p'.$key] == 'yes' )
              {
                  $accessmask |= $key;
