@@ -1,5 +1,5 @@
 <?php
- /* $Id: logout.php,v 1.1 2003/06/13 22:15:00 master_mario Exp $ */
+ /* $Id: logout.php,v 1.2 2003/06/17 20:14:36 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -21,7 +21,8 @@
  include ( 'inc/header.inc.php' );
  
  db_query("UPDATE ".$pref."user SET
-     user_session=''
+     user_session='',
+	 user_lastacttime='$board_time'
  WHERE user_id='".U_ID."'");
  
  session_unset();
