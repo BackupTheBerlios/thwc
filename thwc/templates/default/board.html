@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>[board_name]</title>
+<style>
+ body { margin:2px; 
+        font-family:[stdfont]; 
+		font-size:10pt; 
+		color:[colorbgfont]; 
+		background-color:[colorbg]; }
+		
+ td { color:[color1]; border-color:[border_col]; border-style:solid; border-width:1px; font-size:10pt; font-family:[stdfont]; }
+ td.header { background-color:[color4]; color:[col_he_fo_font]; }
+ td.cella  { background-color:[CellA]; }
+ td.cellb  { background-color:[CellB]; }
+ td.blank  { border-width:0px; }
+
+ a:link         { color:[col_link]; text-decoration: none }
+ a:visited      { color:[col_link_v]; text-decoration: none }
+ a:active       { color:[col_link]; text-decoration: none }
+ a:hover        { color:[col_link_hover]; text-decoration: underline }
+
+ a.bg:link         { color:[colorbgfont]; text-decoration: none }
+ a.bg:visited      { color:[colorbgfont]; text-decoration: none }
+ a.bg:active       { color:[colorbgfont]; text-decoration: none }
+ a.bg:hover        { color:[colorbgfont]; text-decoration: underline }
+ 
+ a.head:link         { color:[col_he_fo_font]; text-decoration: none }
+ a.head:visited      { color:[col_he_fo_font]; text-decoration: none }
+ a.head:active       { color:[col_he_fo_font]; text-decoration: none }
+ a.head:hover        { color:[col_he_fo_font]; text-decoration: underline }
+
+ #border-tab
+  { background-color:[CellB]; border-width:1px; border-style:solid; border-color:[border_col]; font-family:[stdfont]; color:[color1]; font-size:8pt; }
+
+ #tab
+  { background-color:[CellB]; font-family:[stdfont]; color:[color1]; font-size:8pt; }
+
+</style>
+<script type="text/javascript">
+[javascript]
+</script>
+</head>
+<body>
+ <table width="100%" cellpadding="3" cellspacing="0" style="border-collapse:collapse">
+  <tr>
+   <td class="header">
+    <center><b><font style="font-size:12pt">[board_name]</font></b></center>
+   </td>
+  </tr>
+  <tr>
+   <td class="cellb" style="border-width:1px">
+    <center><font size="1">[headoption]</font></center>
+   </td>
+  </tr>
+  [login]
+ </table>
+ <br>
+ <b>[nav_path]</b>
+ <br><br>
+ [boardtable]
+ <br><br><br>
+ <center>
+  based up'n thwb
+ </center>
+ <br><br>
+</body>
+</html>

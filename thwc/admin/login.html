@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>ThWClone -- Admincenter : Login</title>
+<style>
+ body { margin:0px;
+        font-family:verdana;
+                font-size:10pt;
+                color:#323232;
+                background-color:#EFEFEF; }
+
+ td { color:#323232; border-color:#CC9966; border-style:solid; border-width:0px; font-size:8pt; font-family:verdana; }
+ td.header { background-color:#000000; color:#FFFFFF; }
+ td.cella { background-color:#FFFFDD; color:#323232; }
+ td.cellb { background-color:#FFFFEE; color:#323232; }
+
+ a:link         { color:#000099; text-decoration: none }
+ a:visited      { color:#000099; text-decoration: none }
+ a:active       { color:#000099; text-decoration: none }
+ a:hover        { color:#000099; text-decoration: underline }
+
+ a.head:link         { color:#FFFFFF; text-decoration: none; font-size:8pt; }
+ a.head:visited      { color:#FFFFFF; text-decoration: none; font-size:8pt; }
+ a.head:active       { color:#FFFFFF; text-decoration: none; font-size:8pt; }
+ a.head:hover        { color:#FFFFFF; text-decoration: underline; font-size:8pt; }
+
+ #border { border-width:1px; }
+ #border-tab
+  { background-color:#FFFFDD; border-width:1px; border-style:solid; border-color:#CC9966; font-family:verdana; color:#323232; font-size:8pt; }
+
+ #style
+  { border-width:1px; border-style:solid; border-color:#000000; font-family:verdana; font-size:8pt; }
+
+ #tab
+  { background-color:#FFFFDD; font-family:verdana; color:#323232; font-size:8pt; }
+</style>
+<body>
+ <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+   <td class="header" style="height:20px">
+    &nbsp;ThWClone -- Admincenter : Login
+   </td>
+  </tr>
+  <tr>
+   <td style="height:100%; text-align:center; vertical-align:middle;">
+    <form action="index.php" method="post">
+     <table width="220" cellpadding="4" cellspacing="0" border="0">
+      <tr>
+       <td id="border">
+        <table width="100%" cellpadding="4" cellspacing="0" border="0">
+         <tr>
+          <td>
+           <font color="#000099">&nbsp;&nbsp;<b>Login</b></font>
+          </td>
+         </tr>
+         <tr>
+          <td>
+           -&gt; Username&nbsp;&nbsp;<input type="text" name="username" size="15" maxlength="30" id="border-tab" />
+          </td>
+         </tr>
+         <tr>
+          <td>
+           -&gt; Passwort&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name="password" size="15" maxlength="30" id="border-tab" />
+          </td>
+         </tr>
+         <tr>
+          <td style="text-align:right">
+           <input type="submit" value=" Login " id="border-tab" />
+           <input type="hidden" name="action" value="login" />
+          </td>
+         </tr>
+        </table>
+       </td>
+      </tr>
+     </table>
+    </form>
+   </td>
+  </tr>
+ </table>
+</body>
+</html>
