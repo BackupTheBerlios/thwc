@@ -1,5 +1,5 @@
 <?php
- /* $Id: showtopic.php,v 1.1 2003/06/16 18:05:16 master_mario Exp $ */
+ /* $Id: showtopic.php,v 1.2 2003/06/17 20:13:43 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -45,7 +45,8 @@
 	 thread_autor,
 	 autor_id,
 	 replies_del,
-	 is_poll
+	 is_poll,
+	 deleted
  FROM ".$pref."thread WHERE thread_id='$threadid' AND board_id='$boardid'");
  // Permission check ------------------------------------------
  if( db_rows( $r_thread ) != 1 )
@@ -377,7 +378,9 @@
 				 mysql_free_result( $r_this_user );
 				 list(, $post_count ) = each( $a_this_user );
 				 $replies = $thread['replies']+1;
-				 $posts = str_replace( '[mini_thread'.$value.']', createStat( 'Thread', $replies, $thread['replies_del'], ( P_SHOWDELETED == 0 && $post_count > $replies ? $post_count-$thread['replies_del'] : $post_count ), P_IP ), $posts ); 			     
+				 if( $thread['deleted'] == 1 )
+				     $replies = 0;
+				 $posts = str_replace( '[mini_thread'.$value.']', createStat( 'Thread', $replies, ( $thread['deleted'] == 1 ? $thread['replies_del']+1 : $thread['replies_del'] ), ( P_SHOWDELETED == 0 && $post_count > $replies ? $post_count-$thread['replies_del'] : $post_count ), P_IP ), $posts ); 			     
 			 } 
 	     }
 	 }
