@@ -1,5 +1,5 @@
 <?php
-/* $Id: header.inc.php,v 1.6 2003/06/17 20:20:00 master_mario Exp $ */
+/* $Id: header.inc.php,v 1.7 2003/06/24 17:13:49 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -69,7 +69,11 @@
      user_styleid,
 	 post_count,
 	 user_oldsavet,
-	 user_lastpostt
+	 user_lastpostt,
+	 pm_overflow,
+	 pm_new,
+	 pm_count,
+	 noPM_message
  FROM ".$pref."user WHERE user_session='$sid'");
  if( db_rows( $r_user ) == 1 )
  {
@@ -84,6 +88,10 @@
 	 define( "U_OLDTIME", $a_user['user_oldsavet'] );
 	 define( "U_COUNT", $a_user['post_count'] );
 	 define( "U_LAST", $a_user['user_lastpostt'] );
+	 define( "U_PM_OVER", $a_user['pm_overflow'] );
+	 define( "U_PM_NEW", $a_user['pm_new'] );
+	 define( "U_PM_COUNT", $a_user['pm_count'] );
+	 define( "U_NO_PM", $a_user['noPM_message'] );
      $data['login'] = '';
  }
  else
