@@ -1,5 +1,23 @@
 <?php
-/* $Id: header.inc.php,v 1.2 2003/06/12 21:59:23 master_mario Exp $ */
+/* $Id: header.inc.php,v 1.3 2003/06/13 11:47:54 master_mario Exp $ */
+ /*
+          ThWClone - PHP/MySQL Bulletin Board System
+        ==============================================
+          (c) 2003 by
+           Mario Pischel         <mario@aqzone.de>
+
+          download the latest version:
+          https://developer.berlios.de/projects/thwc/
+
+          This  program is  free  software;  you can
+          redistribute it and/or modify it under the
+          terms of the GNU General Public License as
+          published by the Free Software Foundation;
+          either  version 2 of  the License,  or (at
+          your option) any later version.
+
+        ==============================================
+ */
  error_reporting(E_ALL);
  
  if( isset($HTTP_GET_VARS) ) extract($HTTP_GET_VARS);
@@ -69,54 +87,55 @@
      define( "U_ISMOD", '0' );
      define( "U_ISADMIN", '0' );
      define( "U_ISURADMIN", '0' );
-     define( "U_GROUPIDS", $config['guest_groupid'] );
+     define( "U_GROUPIDS", ','.$config['guest_groupid'].',' );
      define( "U_STYLEID", '0' );
  }
  
  
  // _groups lesen und Rechtestring erstellen
- if( isset( $b_id ) )
+ if( isset( $boardid ) )
  {
- 	define('P_VIEW', $P[0]);
- 	define('P_REPLY', $P[1]);
- 	define('P_POSTNEW', $P[2]);
- 	define('P_CLOSE', $P[3]);
- 	define('P_DELTHREAD', $P[4]);
- 	define('P_OMOVE', $P[5]);
- 	define('P_DELPOST', $P[6]);
- 	define('P_EDIT', $P[7]);
- 	define('P_OCLOSE', $P[8]);
- 	define('P_ODELTHREAD', $P[9]);
- 	define('P_ODELPOST', $P[10]);
- 	define('P_OEDIT', $P[11]);
- 	define('P_TOP', $P[12]);
- 	define('P_EDITCLOSED', $P[13]);
- 	define('P_IP', $P[14]);
+    boardPermissions ( U_GROUPIDS, $boardid );
+ 	define('P_VIEW', $P[30]);
+ 	define('P_REPLY', $P[29]);
+ 	define('P_POSTNEW', $P[28]);
+ 	define('P_CLOSE', $P[27]);
+ 	define('P_DELTHREAD', $P[26]);
+ 	define('P_OMOVE', $P[25]);
+ 	define('P_DELPOST', $P[24]);
+ 	define('P_EDIT', $P[23]);
+ 	define('P_OCLOSE', $P[22]);
+ 	define('P_ODELTHREAD', $P[21]);
+ 	define('P_ODELPOST', $P[20]);
+ 	define('P_OEDIT', $P[19]);
+ 	define('P_TOP', $P[18]);
+ 	define('P_EDITCLOSED', $P[17]);
+ 	define('P_IP', $P[16]);
  	define('P_EDITTOPIC', $P[15]);
- 	define('P_NOFLOODPROT', $P[16]);
- 	define('P_NOEDITLIMIT', $P[17]);
- 	define('P_CANSEEINVIS', $P[18]);
- 	define('P_NOPMLIMIT', $P[19]);
- 	define('P_INTEAM', $P[20]);
- 	define('P_CEVENT', $P[21]);
- 	define('P_SHOWDELETED', $P[22]);
- 	define('P_POLLNEW', $P[23]);
- 	define('P_DELPOLL', $P[24]);
- 	define('P_CLOSEPOLL', $P[25]);
- 	define('P_EDITPOLL', $P[26]);
- 	define('P_ODELPOLL', $P[27]);
- 	define('P_OCLOSEPOLL', $P[28]);
- 	define('P_OEDITPOLL', $P[29]);
- 	define('P_OMOVEPOLL', $P[30]);
+ 	define('P_NOFLOODPROT', $P[14]);
+ 	define('P_NOEDITLIMIT', $P[13]);
+ 	define('P_CANSEEINVIS', $P[12]);
+ 	define('P_NOPMLIMIT', $P[11]);
+ 	define('P_INTEAM', $P[10]);
+ 	define('P_CEVENT', $P[9]);
+ 	define('P_SHOWDELETED', $P[8]);
+ 	define('P_POLLNEW', $P[7]);
+ 	define('P_DELPOLL', $P[6]);
+ 	define('P_CLOSEPOLL', $P[5]);
+ 	define('P_EDITPOLL', $P[4]);
+ 	define('P_ODELPOLL', $P[3]);
+ 	define('P_OCLOSEPOLL', $P[2]);
+ 	define('P_OEDITPOLL', $P[1]);
+ 	define('P_OMOVEPOLL', $P[0]);
  }
  else
  {
     $P = globalPermissions ( U_GROUPIDS );
- 	define('P_CANSEEINVIS', $P[18]);
- 	define('P_NOPMLIMIT', $P[19]);
- 	define('P_INTEAM', $P[20]);
- 	define('P_CEVENT', $P[21]);
- 	define('P_SHOWDELETED', $P[22]);
+ 	define('P_CANSEEINVIS', $P[12]);
+ 	define('P_NOPMLIMIT', $P[11]);
+ 	define('P_INTEAM', $P[10]);
+ 	define('P_CEVENT', $P[9]);
+ 	define('P_SHOWDELETED', $P[8]);
 	unset( $P );
  }
  
@@ -143,7 +162,18 @@
  // Board Style
  $where = "styleid='".U_STYLEID."'";
  if( U_STYLEID == 0 )
-     $where = "styleisdefault='1'";
+ {
+     $where = "styleisdefault='1'";	
+     if( isset( $boardid ) )
+	 {
+	     $r_boardstyle = db_query("SELECT
+		     styleid
+	     FROM ".$pref."board WHERE board_id='$boardid'");
+		 $a_boardstyle = db_result( $r_boardstyle );
+		 if( $a_boardstyle['styleid'] != 0 )
+		     $where = "styleid='".$a_boardstyle['styleid']."'";
+	 }
+ }
  $r_style = db_query("SELECT
      *
  FROM ".$pref."style WHERE ".$where." ");
