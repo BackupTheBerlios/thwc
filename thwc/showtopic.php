@@ -1,5 +1,5 @@
 <?php
- /* $Id: showtopic.php,v 1.2 2003/06/17 20:13:43 master_mario Exp $ */
+ /* $Id: showtopic.php,v 1.3 2003/06/20 10:39:08 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -98,7 +98,7 @@
  if( bcmul ( $pages, $config['post_rows'], 0 ) < $count )
      $pages++;	 
  // thread_nav 
- $data['thread_nav'] = check_pages( $count, $config['post_rows'], $page, 0, 'showtopic.php?threadid='.$threadid.'&boardid='.$boardid );
+ $data['thread_nav'] = check_pages( $count, $config['post_rows'], $page, 1, 'showtopic.php?threadid='.$threadid.'&boardid='.$boardid );
  // define LIMIT
  if( $page == 'last' )
      $page = $pages;
@@ -125,7 +125,7 @@
 	 last_edit_ip,
 	 edit_count,
 	 deleted
- FROM ".$pref."post WHERE thread_id='$threadid'");
+ FROM ".$pref."post WHERE thread_id='$threadid' LIMIT ".$limit." ");
  if( db_rows( $r_post ) == 0 )
      $posts = '<tr><td colspan="2" class="cellb"><center>Keine Posts in diesem Thread</center></td></tr>'; 
  else
@@ -277,7 +277,7 @@
 		 else
 		 {
 		     // guest_name
-		     $user_name = addslashes($config['guest_pref']).$post['gues_name'];
+		     $user_name = addslashes($post['guest_name']);
 			 // title
 			 $user_title = 'Gast';
 			 // avatar
@@ -332,9 +332,9 @@
 		     if( P_REPLY )
 		         $more = '<a href="reply.php?action=quote&threadid='.$threadid.'&postid='.$post['post_id'].'&boardid='.$boardid.'&page='.$page.'">'.( $style['quoteimage'] != '' ? '<img src="'.$style['quoteimage'].'" border="0" />' : 'Zitatantwort' ).'</a>&nbsp;';
 		     if( ( $ownpost == 1 && P_EDIT ) || ( $ownpost == 0 && P_OEDIT ) )
-		         $more .= ( $more == '' ? '' : '||&nbsp;' ).'<a href="edit.php?postid='.$post['post_id'].'">'.( $style['editimage'] != '' ? '<img src="'.$style['editimage'].'" border="0" />' : 'Editieren' ).'</a>&nbsp;';
+		         $more .= ( $more == '' ? '' : '||&nbsp;' ).'<a href="edit.php?action=edit&threadid='.$threadid.'&postid='.$post['post_id'].'&boardid='.$boardid.'&page='.$page.'">'.( $style['editimage'] != '' ? '<img src="'.$style['editimage'].'" border="0" />' : 'Editieren' ).'</a>&nbsp;';
 		     if( ( $ownpost == 1 && P_DELPOST ) || ( $ownpost == 0 && P_ODELPOST ) )
-		         $more .= ( $more == '' ? '' : '||&nbsp;' ).'<a href="postopt.php?action=delete&postid='.$post['post_id'].'">'.( $style['deleteimage'] != '' ? '<img src="'.$style['deleteimage'].'" border="0" />' : 'L&ouml;schen' ).'</a>&nbsp;';
+		         $more .= ( $more == '' ? '' : '||&nbsp;' ).'<a href="edit.php?action=delete&threadid='.$threadid.'&postid='.$post['post_id'].'&boardid='.$boardid.'&page='.$page.'">'.( $style['deleteimage'] != '' ? '<img src="'.$style['deleteimage'].'" border="0" />' : 'L&ouml;schen' ).'</a>&nbsp;';
 		 }
 		 // noch mal optionen
 		 if( U_ID != 0 && $config['report'] == 1 )
