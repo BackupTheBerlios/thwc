@@ -1,5 +1,5 @@
 <?php
- /* $Id: index.php,v 1.3 2003/06/13 11:28:02 master_mario Exp $ */
+ /* $Id: index.php,v 1.4 2003/06/13 18:59:30 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -112,7 +112,7 @@
 		 if( $board_count > 0 )
 		 {
 	         $catname = '<a href="category.php?catid='.$a_category['category_id'].'"><b>'.$a_category['category_name'].'</b></a>';	
-			 $catname .= '&nbsp;<font size="1">[<a href="open_cat.php?catid='.$a_category['category_id'].'&open='.$_SESSION[$session_cat].'">open/close</a>]</font>'; 
+			 $catname .= '&nbsp;<font size="1">[<a href="open_cat.php?catid='.$a_category['category_id'].'">open/close</a>]</font>'; 
 		     $catimage = '';
 			 if( $new_topic == 1 ) $catimage = '_new';
 		 

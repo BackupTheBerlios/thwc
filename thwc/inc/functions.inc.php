@@ -1,5 +1,5 @@
 <?php
-/* $Id: functions.inc.php,v 1.2 2003/06/13 11:32:27 master_mario Exp $ */
+/* $Id: functions.inc.php,v 1.3 2003/06/13 19:01:51 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -121,7 +121,7 @@
 
   function Jump ( $pref )
   {
-      $jump_list = '<select name="b_id" size="1" id="tab">';
+      $jump_list = '<select name="boardid" size="1" id="tab">';
       $r_jump_cat = db_query("SELECT
           category_id,
           category_name
@@ -134,7 +134,7 @@
               $r_jump_board = db_query("SELECT
                   board_id,
                   board_name
-              FROM ".$pref."boards WHERE category='$a_jump_cat[category_id]' ORDER BY board_order ASC");
+              FROM ".$pref."board WHERE category='$a_jump_cat[category_id]' ORDER BY board_order ASC");
               if( db_rows( $r_jump_board ) > 0 )
               {
                    while( $a_jump_board = db_result( $r_jump_board ) )
@@ -388,20 +388,20 @@
   function globalPermissions ( $groupids )
   {
       global $pref;
-	  $len = strlen( $groupids );
-	  $groupids = substr ( $groupids, 1 );
-	  $groupids = substr ( $groupids, 0, $len-2 );
-	  $r_groups = db_query("SELECT 
-	      accessmask,
-		  priority
-	  FROM ".$pref."group WHERE groupid IN (".$groupids.")");
-	  $priority = 0;
-	  while( $a_groups = db_result( $r_groups ) )
-	  {
-	      if( $a_groups['priority'] >= $priority )
-		      $accessmask = $a_groups['accessmask'];    
-	  }
-	  $rechte = decbin ( intval ( $accessmask ) ); 
+          $len = strlen( $groupids );
+          $groupids = substr ( $groupids, 1 );
+          $groupids = substr ( $groupids, 0, $len-2 );
+          $r_groups = db_query("SELECT
+              accessmask,
+                  priority
+          FROM ".$pref."group WHERE groupid IN (".$groupids.")");
+          $priority = 0;
+          while( $a_groups = db_result( $r_groups ) )
+          {
+              if( $a_groups['priority'] >= $priority )
+                      $accessmask = $a_groups['accessmask'];
+          }
+          $rechte = decbin ( intval ( $accessmask ) );
       if( strlen( $rechte ) < 30 )
       {
           $y = 30-strlen( $rechte );
@@ -410,42 +410,42 @@
       }
       $rechte = chunk_split ( $rechte, 1, '|' );
       $P = explode( '|', $rechte );
-	  return $P;	  
+          return $P;
   }
   function boardPermissions ( $groupids, $boardid )
   {
       global $pref;
-	  
-	  $len = strlen( $groupids );
-	  $groupids = substr ( $groupids, 1 );
-	  $groupids = substr ( $groupids, 0, $len-2 );
-	  
-	  $r_groupboard = db_query("SELECT
-	      accessmask
-	  FROM ".$pref."groupboard WHERE boardid='$boardid' AND groupid IN (".$groupids.")");
-	  if( db_rows( $r_groupboard ) == 1 )
-	  {
-	      $a_groupboard = db_result( $r_groupboard );
-		  $acces = $a_groupboard['accessmask'];
-		  mysql_free_result( $r_groupboard );
-		  unset( $a_groupboard );
-	  }
-	  else
-	  {
-	      $r_groups = db_query("SELECT 
-	          accessmask,
-		      priority
-	      FROM ".$pref."group WHERE groupid IN (".$groupids.")");
-	      $priority = 0;
-	      while( $a_groups = db_result( $r_groups ) )
-	      {
-	          if( $a_groups['priority'] >= $priority )
-		          $acces = $a_groups['accessmask'];    
-	      }
-		  mysql_free_result( $r_groups );
-		  unset( $a_groups );
-	  }
-	  $rechte = decbin ( intval ( $acces ) ); 
+
+          $len = strlen( $groupids );
+          $groupids = substr ( $groupids, 1 );
+          $groupids = substr ( $groupids, 0, $len-2 );
+
+          $r_groupboard = db_query("SELECT
+              accessmask
+          FROM ".$pref."groupboard WHERE boardid='$boardid' AND groupid IN (".$groupids.")");
+          if( db_rows( $r_groupboard ) == 1 )
+          {
+              $a_groupboard = db_result( $r_groupboard );
+                  $acces = $a_groupboard['accessmask'];
+                  mysql_free_result( $r_groupboard );
+                  unset( $a_groupboard );
+          }
+          else
+          {
+              $r_groups = db_query("SELECT
+                  accessmask,
+                      priority
+              FROM ".$pref."group WHERE groupid IN (".$groupids.")");
+              $priority = 0;
+              while( $a_groups = db_result( $r_groups ) )
+              {
+                  if( $a_groups['priority'] >= $priority )
+                          $acces = $a_groups['accessmask'];
+              }
+                  mysql_free_result( $r_groups );
+                  unset( $a_groups );
+          }
+          $rechte = decbin ( intval ( $acces ) );
       if( strlen( $rechte ) < 30 )
       {
           $y = 30-strlen( $rechte );
@@ -453,8 +453,8 @@
               $rechte = '0'.$rechte;
       }
       $rechte = chunk_split ( $rechte, 1, '|' );
-	  $rechte = substr ( $rechte, 0, 61 );
+          $rechte = substr ( $rechte, 0, 61 );
       $P = explode( '|', $rechte );
-	  return $P;	 	  
+          return $P;
   }
 ?>
