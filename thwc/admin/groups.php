@@ -1,5 +1,5 @@
 <?php
- /* $Id: groups.php,v 1.2 2003/06/13 11:47:03 master_mario Exp $ */
+ /* $Id: groups.php,v 1.3 2003/06/16 18:09:26 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -64,7 +64,7 @@
      P_DELTHREAD => 'Kann <u>eigene</u> Threads löschen?',
      P_DELPOST => 'Kann <u>eigene</u> Posts löschen?',
      P_EDIT => 'Kann <u>eigene</u> Posts editieren?',
-     P_OMOVE => 'Kann Threads anderer verschieben?',
+     P_OMOVE => 'Kann Threads verschieben?',
      P_OCLOSE => 'Kann Threads anderer schliessen?',
      P_ODELTHREAD => 'Kann Threads anderer l&ouml;schen?',
      P_ODELPOST => 'Kann Posts anderer l&ouml;schen?',
@@ -87,7 +87,7 @@
      P_ODELPOLL => 'Kann Umfragen anderer l&ouml;schen?',
      P_OCLOSEPOLL => 'Kann Umfragen anderer schliessen?',
      P_OEDITPOLL => 'Kann Umfragen anderer editieren?',
-     P_OMOVEPOLL => 'Kann Umfragen anderer verschieben?',
+     P_OMOVEPOLL => 'Kann Umfragen verschieben?',
  );
 
  $p_globalonly = array(
@@ -393,7 +393,7 @@
          $accessmask = 0;
          /* create accessmask */
          foreach( $p_desc as $key=>$value )
-         { 
+         {
              if( $_POST['p'.$key] == 'yes' )
              {
                  $accessmask |= $key;

@@ -1,5 +1,5 @@
 <?php
- /* $Id: index.php,v 1.4 2003/06/13 18:59:30 master_mario Exp $ */
+ /* $Id: index.php,v 1.5 2003/06/16 18:08:20 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -19,6 +19,12 @@
         ==============================================
  */
  include ( 'inc/header.inc.php' );
+  
+ if( U_ID != 0 )
+ {
+     if( !isset( $_SESSION['newpost'] ) )
+         setNewposts( U_OLDTIME );
+ } 
   
  $TCatrow = Get_Template( 'templates/'.$style['styletemplate'].'/catrow.html' );
  $TBoardrow = Get_Template( 'templates/'.$style['styletemplate'].'/index_b_row.html' );
@@ -89,10 +95,10 @@
 				     }
 				     if( $board['last_act_time'] != 0 )
 				     {
-				         $last = date( "d.m.Y H:i \U\h\\r", $board['last_act_time'] );
+				         $last = datum ( $board['last_act_time'] );
 					     if( strlen( $board['last_act_thread'] ) > 50 )
 					         $board['last_act_thread'] = substr ( $board['last_act_thread'], 0, 46 ).'...';
-					     $last .= '<br /><a href="showthreads.php?threadid='.$board['last_thread_id'].'">'.$board['last_act_thread'].'</a>';
+					     $last .= '<br /><a href="showtopic.php?threadid='.$board['last_thread_id'].'&boardid='.$board['board_id'].'&page=last">'.$board['last_act_thread'].'</a>';
 					     $last .= '&nbsp;von <a href="s_profile.php?username='.$board['last_act_user'].'">'.$board['last_act_user'].'</a>';
 				     }
 				     else

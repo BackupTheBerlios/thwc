@@ -1,5 +1,5 @@
 <?php
-/* $Id: style.php,v 1.1 2003/06/12 13:59:33 master_mario Exp $ */
+/* $Id: style.php,v 1.2 2003/06/16 18:08:43 master_mario Exp $ */
  include( 'adhead.inc.php' );
  $data['work'] = '<b>Styles</b><br /><br />';
 
@@ -36,7 +36,8 @@
      array( 'quoteimage', '', 'Quoteimage', 'Bild wird anstelle von *Zitatantwort* angezeigt', 4, 0 ),
      array( 'editimage', '', 'Editimage', 'Bild wird anstelle von *Editieren* angezeigt', 4, 0 ),
      array( 'deleteimage', '', 'Deleteimage', 'Bild wird anstelle von *L&ouml;schen* angezeigt', 4, 0 ),
-     array( 'reportimage', '', 'Reportimage', 'Bild wird anstelle von *Melden* angezeigt', 4, 0 )
+     array( 'reportimage', '', 'Reportimage', 'Bild wird anstelle von *Melden* angezeigt', 4, 0 ),
+     array( 'replyimage', '', 'Replyimage', 'Bild wird anstelle von *Antworten* angezeigt', 4, 0 )
  );
  // FUNKTION
  function styleTemplate ()

@@ -1,4 +1,5 @@
 <?php
+ /* $Id: open_cat.php,v 1.2 2003/06/16 18:07:10 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -18,15 +19,15 @@
         ==============================================
  */
  include ( 'inc/header.inc.php' );
- 
+
  $session_cat = 'c'.$catid; // openclose Variable
  if( isset( $_SESSION[$session_cat] ) )
  {
      if( $_SESSION[$session_cat] == 0 )
-	     $open = 1;
-	 else
-	     $open = 0;
-	 $_SESSION[$session_cat] = $open;
+             $open = 1;
+         else
+             $open = 0;
+         $_SESSION[$session_cat] = $open;
  }
  // Weiterleitung ------------------
  message_redirect('Auswahl wird bearbeitet, bitte warten ...', 'index.php');

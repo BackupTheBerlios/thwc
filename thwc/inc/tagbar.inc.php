@@ -1,5 +1,5 @@
 <?php
-/* $Id: tagbar.inc.php,v 1.1 2003/06/12 13:59:24 master_mario Exp $ */
+/* $Id: tagbar.inc.php,v 1.2 2003/06/16 18:10:31 master_mario Exp $ */
 $textarea = 'text';
 $form = 'form';
 $laenge = $config['max_post_len'];
@@ -100,7 +100,7 @@ function closealltags()
 $tagbar = '
 <table border="0" cellspacing="2" cellpadding="2">
  <tr>
-  <td>
+  <td class="blank"> 
       <input name="button" type="button" id="border-tab" value=" B " onClick="inserttag(\'b\')">
       <input name="button" type="button" id="border-tab" value=" I " onClick="inserttag(\'i\')">
       <input name="button" type="button" id="border-tab" value=" U " onClick="inserttag(\'u\')">
@@ -133,34 +133,34 @@ $tagbar = '
         <option value="silver" style="color:silver">silver</option>
       </select>
     </td>
-    <td style="padding-left:10px">
+    <td style="padding-left:10px" class="blank">
       <input name="button" type="button" style="color:red; font-weight:bold" id="border-tab" value=" x " onClick="closealltags()"> '.$style['smallfont'].'Alle Tags schlieﬂen'.$style['smallfontend'].'
     </td>
-    <td style="padding-left:10px">
-      <button name="button" type="button" id="border-tab" onClick="seticon(\':)\')"><img src="templates/images/icon/smile_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
-      <button name="button" type="button" id="border-tab" onClick="seticon(\'\;)\')"><img src="templates/images/icon/wink_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
-      <button name="button" type="button" id="border-tab" onClick="seticon(\':D\')"><img src="templates/images/icon/biggrin_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
-      <button name="button" type="button" id="border-tab" onClick="seticon(\'=)\')"><img src="templates/images/icon/gumble_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
-      <button name="button" type="button" id="border-tab" onClick="seticon(\':rolleyes:\')"><img src="templates/images/icon/rolleyes_new.gif" width="15" height="15" border="0" alt=""></button>
+    <td style="padding-left:10px" class="blank">
+      <button name="button" type="button" id="border-tab" onClick="seticon(\':)\')"><img src="templates/'.$style['styletemplate'].'/images/icon/smile_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
+      <button name="button" type="button" id="border-tab" onClick="seticon(\'\;)\')"><img src="templates/'.$style['styletemplate'].'/images/icon/wink_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
+      <button name="button" type="button" id="border-tab" onClick="seticon(\':D\')"><img src="templates/'.$style['styletemplate'].'/images/icon/biggrin_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
+      <button name="button" type="button" id="border-tab" onClick="seticon(\'=)\')"><img src="templates/'.$style['styletemplate'].'/images/icon/gumble_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
+      <button name="button" type="button" id="border-tab" onClick="seticon(\':rolleyes:\')"><img src="templates/'.$style['styletemplate'].'/images/icon/rolleyes_new.gif" width="15" height="15" border="0" alt=""></button>
     </td>
   </tr>
   <tr>
-    <td>
+    <td class="blank">
       <input name="button" type="button" id="border-tab" value="http://" onClick="inserttag(\'url\')">
       <input name="button" type="button" id="border-tab" value=" @ " onClick="inserttag(\'mail\')">
       <input name="button" type="button" id="border-tab" value="IMG" onClick="inserttag(\'img\')">
       <input name="button" type="button" id="border-tab" value="Quote" onClick="inserttag(\'quote\')">
     </td>
-    <td style="padding-left:10px">
+    <td style="padding-left:10px" class="blank">
       <input name="button" type="button" style="color:red; font-weight:bold" id="border-tab" value=" x " onClick="closelasttag()"> '.$style['smallfont'].'Aktuelles Tag schlieﬂen'.$style['smallfontend'].'
     </td>
-    <td style="padding-left:10px">
-      <button name="button" type="button" id="border-tab" onClick="seticon(\':oah:\')"><img src="templates/images/icon/oah_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
-      <button name="button" type="button" id="border-tab" onClick="seticon(\':?\')"><img src="templates/images/icon/question_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
-      <button name="button" type="button" id="border-tab" onClick="seticon(\':|\')"><img src="templates/images/icon/strange_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
-      <button name="button" type="button" id="border-tab" onClick="seticon(\':(\')"><img src="templates/images/icon/frown_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
-      <button name="button" type="button" id="border-tab" onClick="seticon(\'>:(\')"><img src="templates/images/icon/angry_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
-      <button name="button" type="button" id="border-tab" onClick="seticon(\':pref:\')"><img src="templates/images/icon/prefect_new.gif" width="15" height="15" border="0" alt=""></button>
+    <td style="padding-left:10px" class="blank">
+      <button name="button" type="button" id="border-tab" onClick="seticon(\':oah:\')"><img src="templates/'.$style['styletemplate'].'/images/icon/oah_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
+      <button name="button" type="button" id="border-tab" onClick="seticon(\':?\')"><img src="templates/'.$style['styletemplate'].'/images/icon/question_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
+      <button name="button" type="button" id="border-tab" onClick="seticon(\':|\')"><img src="templates/'.$style['styletemplate'].'/images/icon/strange_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
+      <button name="button" type="button" id="border-tab" onClick="seticon(\':(\')"><img src="templates/'.$style['styletemplate'].'/images/icon/frown_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
+      <button name="button" type="button" id="border-tab" onClick="seticon(\'>:(\')"><img src="templates/'.$style['styletemplate'].'/images/icon/angry_new.gif" width="15" height="15" border="0" alt=""></button>&nbsp;
+      <button name="button" type="button" id="border-tab" onClick="seticon(\':pref:\')"><img src="templates/'.$style['styletemplate'].'/images/icon/prefect_new.gif" width="15" height="15" border="0" alt=""></button>
     </td>
   </tr>
 </table>';
