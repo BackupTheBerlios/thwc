@@ -1,5 +1,5 @@
 <?php
- /* $Id: index.php,v 1.7 2003/06/20 10:39:50 master_mario Exp $ */
+ /* $Id: index.php,v 1.8 2003/06/24 17:11:39 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -24,7 +24,16 @@
  {
      if( !isset( $_SESSION['newpost'] ) )
          setNewposts( U_OLDTIME );
+	 if( U_PM_OVER == 1 )
+	 {
+	     $data['message'] = "onLoad=\"javascript:alert('Jemand hat versucht Dir ein Message zu senden.\\nDeine Massagebox ist aber leider voll.')\"";
+	 }
+	 if( U_PM_NEW == 1 && U_NO_PM == 1 )
+	 {
+	     $data['message'] = "onLoad=\"javascript:alert('Du hast ".U_PM_COUNT." neue Nachricht/en')\"";
+	 }
  } 
+	  
   
  $TCatrow = Get_Template( 'templates/'.$style['styletemplate'].'/catrow.html' );
  $TBoardrow = Get_Template( 'templates/'.$style['styletemplate'].'/index_b_row.html' );
