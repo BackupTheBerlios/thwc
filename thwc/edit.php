@@ -1,5 +1,5 @@
 <?php
- /* $Id: edit.php,v 1.1 2003/06/20 10:38:16 master_mario Exp $ */
+ /* $Id: edit.php,v 1.2 2003/06/24 17:12:02 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -273,6 +273,11 @@
 			 replies_del
 		 FROM ".$pref."thread WHERE thread_id='$threadid'");
 		 $thread = db_result( $r_thread );
+		 // Boarddaten lesen
+		 $r_board = db_query("SELECT
+		     posts,
+			 posts_del
+		 FROM ".$pref."board WHERE board_id='$boardid'");
 		 // post updaten
 		 db_query("UPDATE ".$pref."post SET
 		     deleted='1'
@@ -282,6 +287,20 @@
 		     replies='".($thread['replies']-1)."',
 		     replies_del='".($thread['replies_del']+1)."'
 		 WHERE thread_id='$threadid'");
+		 // boarddaten updaten 
+		 db_query("UPDATE ".$pref."board SET
+		     posts='".($board['posts']-1)."',
+		     posts_del='".($board['posts_del']+1)."'
+		 WHERE board_id='$boardid'");
+		 // modlog
+             $basename = basename($HTTP_SERVER_VARS["SCRIPT_NAME"]);
+                 db_query( "INSERT INTO ".$pref."modlog SET
+                 logtime='$board_time',
+                 loguser='".( U_ID == 0 ? 'Gast' : U_NAME )."',
+                 logip='".getenv('REMOTE_ADDR')."',
+                 logfile='$basename',
+                 action='".$action."(p".$postid.")'");
+				 
 		 message_redirect('Der Beitrag wurde als gel&ouml;scht makiert, bitte warten ...', 'showtopic.php?boardid='.$boardid.'&threadid='.$threadid.'&page='.$page.'#p'.$postid );
 	 }
  }
