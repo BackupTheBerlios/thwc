@@ -1,5 +1,5 @@
 <?php
- /* $Id: login.php,v 1.1 2003/06/12 13:59:19 master_mario Exp $ */
+ /* $Id: login.php,v 1.2 2003/06/12 21:57:47 master_mario Exp $ */
  include ( 'inc/header.inc.php' );
  
  $r_login = db_query("SELECT
@@ -23,8 +23,8 @@
 		 // new Posts ----------------------
          $r_boards = db_query("SELECT
              board_id
-         FROM ".$pref."boards WHERE category!='0' AND disabled!='0'");
-		 if( db_rows( $r_boards > 0 ) )
+         FROM ".$pref."board WHERE category!='0' AND disabled!='1'");
+		 if( db_rows( $r_boards ) > 0 )
 		 {
               while( $a_boards = db_result( $r_boards ) )
               {
@@ -32,19 +32,21 @@
                   $r_post_id = db_query("SELECT
                        MIN(post_id),
                        COUNT(post_id)
-                  FROM ".$pref."post WHERE board_id='$a_boards[board_id]' AND post_time>'$a_user[user_lastacttime]'");
+                  FROM ".$pref."post WHERE board_id='$a_boards[board_id]' AND post_time>'$r_login[user_lastacttime]'");
                   $a_post_id = db_result( $r_post_id );
-                  if( $a_post_id[1] == 0 )
+				  list( $a, $b) = each($a_post_id);
+                  if( $b == 0 )
                   {
                        $r_max_post = db_query("SELECT
                             MAX(post_id)
                        FROM ".$pref."post WHERE board_id='$a_boards[board_id]'");
                        $a_max_post = db_result( $r_max_post );
-                       $_SESSION[$session_var] = $a_max_post[0];
+					   list( $a ) = each($a_max_post);
+                       $_SESSION[$session_var] = $a;
                   }
                   else
                   {
-                      $_SESSION[$session_var] = $a_post_id[0]-1;
+                      $_SESSION[$session_var] = $a-1;
                   }
               } // while
 		 } // if
