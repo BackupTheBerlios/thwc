@@ -1,5 +1,23 @@
 <?php
- /* $Id: useredit.php,v 1.1 2003/06/12 13:59:30 master_mario Exp $ */
+ /* $Id: useredit.php,v 1.2 2003/06/13 11:33:22 master_mario Exp $ */
+ /*
+          ThWClone - PHP/MySQL Bulletin Board System
+        ==============================================
+          (c) 2003 by
+           Mario Pischel         <mario@aqzone.de>
+
+          download the latest version:
+          https://developer.berlios.de/projects/thwc/
+
+          This  program is  free  software;  you can
+          redistribute it and/or modify it under the
+          terms of the GNU General Public License as
+          published by the Free Software Foundation;
+          either  version 2 of  the License,  or (at
+          your option) any later version.
+
+        ==============================================
+ */
  include( 'adhead.inc.php' );
 
  if( isset( $_POST['action'] ) ) $action=$_POST['action'];
@@ -30,7 +48,7 @@
      'user_interests' => array('Interessen', '', 5),
      'signatur' => array('Signatur', '', 5),
      /* opts */
-     'hidden' => array('Unsichtbar?', '', 6),
+     'user_ishidden' => array('Unsichtbar?', '', 6),
      'show_sig' => array('Signaturen zeigen?', '', 6),
      'user_nomail' => array('E-Mail verbergen?', '', 6),
      'noPM_message' => array('PM MessageBox?', '(Messagebox bei neuen PMs)', 6)
@@ -156,7 +174,7 @@
                <td id="blank" style="width:250px; vertical-align:top"><b>Usergruppen</b></td>
                <td id="blank">&nbsp;</td>
                <td id="blank">
-                <select id="tab" name="groupids" size="5" multiple style="width:100px">';
+                <select id="tab" name="groupids[]" size="5" style="width:100px" multiple>';
              $r_group = db_query("SELECT
                  name,
                  groupid
@@ -241,8 +259,8 @@
          if( $_POST['status'] == 2 )
              $update .= "user_ismod='0', usernodelete='1', user_isadmin='1', ";
      }
-     if( !empty( $_POST['groupids'] ) )
-         $groupids = ','.implode(',', $_POST['groupids']).',';
+     if( !empty( $groupids ) )
+         $groupids = ','.implode(',', $groupids ).',';
      else
          $groupids = ',,';
      $update .= " groupids='".$groupids."'";
