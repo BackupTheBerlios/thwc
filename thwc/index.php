@@ -1,5 +1,5 @@
 <?php
- /* $Id: index.php,v 1.8 2003/06/24 17:11:39 master_mario Exp $ */
+ /* $Id: index.php,v 1.9 2003/07/01 16:49:18 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -39,8 +39,38 @@
  $TBoardrow = Get_Template( 'templates/'.$style['styletemplate'].'/index_b_row.html' );
  $TIndex = Get_Template( 'templates/'.$style['styletemplate'].'/boardtable.html' ); 
  $TBoard = Get_Template( 'templates/'.$style['styletemplate'].'/board.html' );
-
- $r_category = db_query("SELECT
+ 
+ $onlinebox = '';
+ if( $config['onlinebox'] )
+ {
+     $TOnline = Get_Template( 'templates/'.$style['styletemplate'].'/online.html' ); 
+	 include( 'online.php' );
+	 $pre = 'ist';
+	 if( $onlinecount > 1 || $onlinecount < 1 )
+	     $pre = 'sind';
+	 $TOnline = str_replace( '[onlinecount]', $pre.' <b>'.$onlinecount.'</b>', $TOnline );
+	 $TOnline = str_replace( '[onlineuser]', $usercount, $TOnline );
+	 $post = 'G&auml;ste';
+	 if( $guestcount == 1 )
+	     $post = 'Gast';
+	 $TOnline = str_replace( '[onlineguest]', '<b>'.$guestcount.'</b> '.$post, $TOnline );
+	 $TOnline = str_replace( '[onlinelist]', $onlinelist, $TOnline );
+	 $TOnline = str_replace( '[onlinecount24]', $onlinecount24, $TOnline );
+	 $TOnline = str_replace( '[onlinelist24]', $onlinelist24, $TOnline );
+	 $TOnline = str_replace( '[rek]', $rek, $TOnline );
+	 $TOnline = str_replace( '[rekorttime]', $rekorttime, $TOnline );
+	 $onlinebox = $TOnline;
+ }
+ 
+ $statbox = '';
+ if( $config['statbox'] )
+ {
+     $TStat = Get_Template( 'templates/'.$style['styletemplate'].'/stats.html' );
+	 include( 'stats.php' );
+	 $statbox = $TStat;
+ }
+ 
+ $r_category = db_query("SELECT      
      category_id,
 	 category_name,
 	 category_is_open
@@ -153,8 +183,20 @@
  
  $data['boards'] = $boards;
  $data['user'] = U_NAME;
+ $data['PMreport'] = '';
+ if( U_ID > 0 )
+ {
+     if( U_PM_NEW == 0 )
+	     $data['PMreport'] = 'Du hast keine neuen Nachrichten.';
+     if( U_PM_NEW == 1 && U_PM_COUNT == 1 )
+	     $data['PMreport'] = 'Du hast eine neue Nachricht.';
+     if( U_PM_NEW == 1 && U_PM_COUNT > 1 )
+	     $data['PMreport'] = 'Du hast '.U_PM_COUNT.' neue Nachrichten.';
+ }
  $data['nav_path'] .= '&nbsp;&gt;&gt;&nbsp;Foren&uuml;bersicht';
  $data['time'] = 'Serverzeit: '.date( "d.M.Y\, H:i \U\h\\r", $board_time );
+ $data['onlinebox'] = Template( $onlinebox );
+ $data['statbox'] = Template( $statbox );
  $data['boardtable'] = Template( $TIndex );
  echo Output( Template ( $TBoard ) );
 ?>
