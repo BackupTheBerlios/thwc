@@ -1,5 +1,5 @@
 <?php
-/* $Id: adfunc.inc.php,v 1.1 2003/06/12 13:59:24 master_mario Exp $ */
+/* $Id: adfunc.inc.php,v 1.2 2003/06/20 10:41:29 master_mario Exp $ */
  function tb_footer()
  {
      print '
@@ -42,14 +42,6 @@
     $string = str_replace('&amp;', '&', $string);
     $string = str_replace('&lt;', '<', $string);
     $string = str_replace('&gt;', '>', $string);
-    return $string;
- }
- function encodeX($string)
- {
-    $string = str_replace('&prime;', "'", $string);
-    $string = str_replace('&', '&amp;', $string);
-    $string = str_replace('<', '&lt;', $string);
-    $string = str_replace('>', '&gt;', $string);
     return $string;
  }
 ?>
