@@ -1,5 +1,5 @@
 <?php
- /* $Id: index.php,v 1.1 2003/06/12 13:59:19 master_mario Exp $ */
+ /* $Id: index.php,v 1.2 2003/06/12 21:58:30 master_mario Exp $ */
  include ( 'inc/header.inc.php' );
  
  $TCatrow = Get_Template( 'templates/'.$style['styletemplate'].'/catrow.html' );
@@ -24,9 +24,15 @@
 	         board_id,
 		     board_name,
 			 board_under,
+			 last_act_time,
 			 last_post_id,
+			 last_act_user, 
+			 last_thread_id, 
+			 last_act_thread,
 			 threads,
-			 posts
+			 posts,
+			 threads_del,
+			 posts_del
 	     FROM ".$pref."board WHERE disabled='0' AND category='".$a_category['category_id']."' ORDER BY board_order ASC");
 		 if( db_rows( $r_boards ) > 0 )
 		 {
@@ -45,12 +51,30 @@
 				 }
 				 $boardname = '<a href="board.php?boardid='.$board['board_id'].'"><b>'.$board['board_name'].'</b></a>';
 				 $boardname .= '<br />[smallfont]'.$board['board_under'].'[smallfontend]';
+				 $threads = $board['threads'];
+				 $posts = $board['posts'];
+				 if( P_SHOWDELETED == 1 )
+				 {
+				     $threads .= '/<font color="'.$style['col_link'].'">[smallfont]'.$board['threads_del'].'[smallfontend]</font>';
+				     $posts .= '/<font color="'.$style['col_link'].'">[smallfont]'.$board['posts_del'].'[smallfontend]</font>';
+				 }
+				 if( $board['last_act_time'] != 0 )
+				 {
+				     $last = date( "d.m.Y H:i \U\h\\r", $board['last_act_time'] );
+					 if( strlen( $board['last_act_thread'] ) > 50 )
+					     $board['last_act_thread'] = substr ( $board['last_act_thread'], 0, 46 ).'...';
+					 $last .= '<br /><a href="showthreads.php?threadid='.$board['last_thread_id'].'">'.$board['last_act_thread'].'</a>';
+					 $last .= '&nbsp;von <a href="s_profile.php?username='.$board['last_act_user'].'">'.$board['last_act_user'].'</a>';
+				 }
+				 else
+				     $last = '<center>unbekannt</center>';
 				 
 				 $row = $TBoardrow;
 				 $row = str_replace( '[board_gif]', '<img src="templates/'.$style['styletemplate'].'/images/board'.$gif.'.gif" border="0">', $row );
 				 $row = str_replace( '[forum_name]', $boardname, $row );
-				 $row = str_replace( '[threads]', $board['threads'], $row );
-				 $row = str_replace( '[posts]', $board['posts'], $row );
+				 $row = str_replace( '[threads]', $threads, $row );
+				 $row = str_replace( '[posts]', $posts, $row );
+				 $row = str_replace( '[last]', $last, $row );
 				 $category .= $row; 
 			 }
 		 }
