@@ -1,5 +1,5 @@
 <?php
- /* $Id: reply.php,v 1.1 2003/06/16 18:05:27 master_mario Exp $ */
+ /* $Id: reply.php,v 1.2 2003/06/17 20:14:04 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -22,6 +22,10 @@
  include( 'inc/tagbar.inc.php' );
  
  $TBoard = Get_Template( 'templates/'.$style['styletemplate'].'/board.html' );
+ 
+ // Flood protection
+ if( U_LAST != 0 && U_LAST+$config['flood_protection'] > $board_time )
+     message ( 'Du kannst nur alle '.$config['flood_protection'].' Sekunden einen neuen Beitrag senden.', 'Flood protection', 0 );
 
  // replyForm --------------------
  function replyForm( $post, $boardid, $threadid, $postid, $abbonieren, $smi, $code, $method )
@@ -300,6 +304,19 @@
 			 db_query("UPDATE ".$pref."stats SET
 			     posts='".$stats['posts']."',
 				 threads='".$stats['threads']."'");
+			 // last_act_time
+			 if( U_ID == 0 )
+			 {
+			     db_query("UPDATE ".$pref."guest SET
+				     last_act_time='$addtime'
+				 WHERE session_id='$sid'");
+			 }
+			 else
+			 {
+			     db_query("UPDATE ".$pref."user SET
+				     user_lastpostt='$addtime'
+				 WHERE user_id='".U_ID."'");
+			 }
 			 message_redirect('Danke f&uuml;r Deinen Beitrag, bitte warten ...', 'showtopic.php?boardid='.$boardid.'&threadid='.$threadid );
 		 }
 	 }
@@ -429,6 +446,19 @@
 			 $stats['posts']++;
 			 db_query("UPDATE ".$pref."stats SET
 			     posts='".$stats['posts']."'");
+			 // last_act_time
+			 if( U_ID == 0 )
+			 {
+			     db_query("UPDATE ".$pref."guest SET
+				     last_act_time='$addtime'
+				 WHERE session_id='$sid'");
+			 }
+			 else
+			 {
+			     db_query("UPDATE ".$pref."user SET
+				     user_lastpostt='$addtime'
+				 WHERE user_id='".U_ID."'");
+			 }
 			 message_redirect('Danke f&uuml;r Deinen Beitrag, bitte warten ...', 'showtopic.php?boardid='.$boardid.'&threadid='.$threadid.'&page='.$page.'#p'.$last_post_id );
 		 }
      }
@@ -535,6 +565,19 @@
 			 $stats['posts']++;
 			 db_query("UPDATE ".$pref."stats SET
 			     posts='".$stats['posts']."'");
+			 // last_act_time
+			 if( U_ID == 0 )
+			 {
+			     db_query("UPDATE ".$pref."guest SET
+				     last_act_time='$addtime'
+				 WHERE session_id='$sid'");
+			 }
+			 else
+			 {
+			     db_query("UPDATE ".$pref."user SET
+				     user_lastpostt='$addtime'
+				 WHERE user_id='".U_ID."'");
+			 }
 			 message_redirect('Danke f&uuml;r Deinen Beitrag, bitte warten ...', 'showtopic.php?boardid='.$boardid.'&threadid='.$threadid.'&page=last#p'.$last_post_id );
 		 }
 	 }
