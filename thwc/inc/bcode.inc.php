@@ -1,14 +1,12 @@
 <?php
-/* $Id: bcode.inc.php,v 1.1 2003/06/12 13:59:22 master_mario Exp $ */    
-/*
-          ThWboard - PHP/MySQL Bulletin Board System
+/* $Id: bcode.inc.php,v 1.2 2003/06/16 18:15:07 master_mario Exp $ */    
+ /*
+          ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
-            (c) 2000, 2001 by
-               Paul Baecher         <paul@thewall.de>
-               Felix Gonschorek   <funner@thewall.de>
+           Mario Pischel         <mario@aqzone.de>
 
           download the latest version:
-            http://www.thwboard.de
+          https://developer.berlios.de/projects/thwc/
 
           This  program is  free  software;  you can
           redistribute it and/or modify it under the
@@ -18,8 +16,8 @@
           your option) any later version.
 
         ==============================================
-
-*/
+		this is thwb code
+ */
 
 define('SEARCH', 0);
 define('REPLACE', 1);
@@ -354,7 +352,7 @@ function parse_code($string, $do_br = 0, $do_img = 0, $do_code = 0, $do_smilies 
                 if( !$smilies_fixed )
                 {
                         reset($a_smilies);
-                        $url_prepend = '<img src="templates/images/icon/';
+                        $url_prepend = '<img src="templates/'.$style['styletemplate'].'/images/icon/';
                         while( current( $a_smilies ) )
                         {
                                 $a_smilies[key($a_smilies)] = $url_prepend.current($a_smilies).'_new.gif" width="15" height="15" border="0">';

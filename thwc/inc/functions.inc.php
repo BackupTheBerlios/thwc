@@ -1,5 +1,5 @@
 <?php
-/* $Id: functions.inc.php,v 1.3 2003/06/13 19:01:51 master_mario Exp $ */
+/* $Id: functions.inc.php,v 1.4 2003/06/16 18:14:57 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -84,7 +84,8 @@
 
   function Create_Smillist ( $checked )
   {
-      $smilies = opendir('templates/images/icon/');
+      global $style;
+      $smilies = opendir('templates/'.$style['styletemplate'].'/images/icon/');
       $a_file = array();
       $smil = array();
       while( $file = readdir($smilies) )
@@ -96,23 +97,23 @@
       }
       closedir($smilies);
       $next = @bcdiv( count( $smil ), 2, 0 )+1;
-      $icon_list = '<table cellpadding="3" cellspacing="0" border="0"><tr><td>';
+      $icon_list = '<table cellpadding="3" cellspacing="0" border="0"><tr><td class="blank">';
       $t = 0;
       foreach( $smil as $value )
       {
           $t++;
           $select = '';
-          if( $checked == $t )
+          if( $checked == str_replace( '_new.gif', '', $value ) )
           {
               $select = ' checked';
           }
           if( $t == $next )
           {
-              $icon_list .= '</td></tr><tr><td>&nbsp;<input type="radio" name="icon" value="'.$t.'"'.$select.'>&nbsp;<img src="templates/images/icon/'.$value.'" width="15" height="15" border="0"></input>&nbsp;';
+              $icon_list .= '</td></tr><tr><td class="blank">&nbsp;<input type="radio" name="icon" value="'.str_replace( '_new.gif', '', $value ).'"'.$select.'>&nbsp;<img src="templates/'.$style['styletemplate'].'/images/icon/'.$value.'" width="15" height="15" border="0"></input>&nbsp;';
           }
           else
           {
-               $icon_list .= '&nbsp;<input type="radio" name="icon" value="'.$t.'"'.$select.'>&nbsp;<img src="templates/images/icon/'.$value.'" width="15" height="15" border="0"></input>&nbsp;';
+               $icon_list .= '&nbsp;<input type="radio" name="icon" value="'.str_replace( '_new.gif', '', $value ).'"'.$select.'>&nbsp;<img src="templates/'.$style['styletemplate'].'/images/icon/'.$value.'" width="15" height="15" border="0"></input>&nbsp;';
           }
       }
       $icon_list .= '</td></tr></table>';
@@ -191,6 +192,55 @@
       exit;
   }
 
+  function check_string( $string, $mode )
+  {
+      global $config;
+	  
+	  $err_mess = '';
+	  if( $mode == 0 )
+	  {
+	      if( strlen( $string ) < $config['min_usernamelength'] )
+		  {
+		      $err_mess .= 'Der gew&auml;lte Name ist zu kurz.';
+			  $err = 1;
+		  }
+	      if( strlen( $string ) > $config['max_usernamelength'] )
+		  {
+		      $err_mess .= ( $err_mess == '' ? '' : '<br />' ).'Der gew&auml;lte Name ist zu lang.';
+			  $err = 1;
+		  }
+          $legalchars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [|](){}.-_‰ˆ¸ƒ÷‹ﬂ";
+          for( $i = 0; $i < strlen($string); $i++ )
+          {
+              if( !strstr($legalchars, $string[$i]) )
+              {
+		          $err_mess .= ( $err_mess == '' ? '' : '<br />' ).'Der gew&auml;lte Name enth&auml;lt nicht erlaubte Zeichen. ( '.$string[$i].' )';
+              }
+          }
+	  }
+	  if( $mode == 1 )
+	  {
+	      if( strlen( $string ) < $config['min_topic_len'] )
+		  {
+		      $err_mess .= ( $err_mess == '' ? '' : '<br />' ).'Das gew&auml;lte Topic ist zu kurz.';
+			  $err = 1;
+		  }
+	      if( strlen( $string ) > $config['max_topic_len'] )
+		  {
+		      $err_mess .= ( $err_mess == '' ? '' : '<br />' ).'Das gew&auml;lte Topic ist zu lang.';
+			  $err = 1;
+		  }
+          $legalchars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [|](){}.-_‰ˆ¸ƒ÷‹ﬂ";
+          for( $i = 0; $i < strlen($string); $i++ )
+          {
+              if( !strstr($legalchars, $string[$i]) )
+              {
+		          $err_mess .= ( $err_mess == '' ? '' : '<br />' ).'Das gew&auml;lte Topic enth&auml;lt nicht erlaubte Zeichen. ( '.$string[$i].' )';
+              }
+          }
+	  }
+      return $err_mess;
+  }
   define('INVALID_CHAR', 1);
   define('INVALID_LENGTH', 2);
   define('NAME_TAKEN', 3);
@@ -334,7 +384,7 @@
       }
   }
 
-  //called by online, board.php, showthread.php
+  //called by online, board.php, showtopic.php
   function check_pages ( $count, $default, $page, $mode, $datei )
   {
       $pages = $count/$default;
@@ -454,7 +504,80 @@
       }
       $rechte = chunk_split ( $rechte, 1, '|' );
           $rechte = substr ( $rechte, 0, 61 );
+      $rechte = strrev ( $rechte );
       $P = explode( '|', $rechte );
           return $P;
+  }
+  // new Posts ----------------------
+  function setNewposts( $last_act )
+  {
+      global $pref;
+      $r_boards = db_query("SELECT
+          board_id
+      FROM ".$pref."board WHERE category!='0' AND disabled!='1'");
+      if( db_rows( $r_boards ) > 0 )
+      {
+          while( $a_boards = db_result( $r_boards ) )
+          {
+              $session_var = 'b'.$a_boards['board_id'];
+              $r_post_id = db_query("SELECT
+                  MIN(post_id),
+                  COUNT(post_id)
+              FROM ".$pref."post WHERE board_id='$a_boards[board_id]' AND post_time>'$last_act'");
+              $a_post_id = db_result( $r_post_id );
+                  list( $a, $b) = each($a_post_id);
+              if( $b == 0 )
+              {
+                  $r_max_post = db_query("SELECT
+                      MAX(post_id)
+                  FROM ".$pref."post WHERE board_id='$a_boards[board_id]'");
+                  $a_max_post = db_result( $r_max_post );
+                      list(, $a ) = each($a_max_post);
+                  $_SESSION[$session_var] = $a;
+              }
+              else
+              {
+                  $_SESSION[$session_var] = $a-1;
+              }
+          } // while
+	      $_SESSION['newpost'] = 1;
+      } // if
+  }
+  //called by createStat
+  function proz( $hundert, $anteil )
+  {
+      $einpro = @bcdiv( $hundert, 100, 2 );
+	  $prozente = bcdiv( $anteil, $einpro, 2 );
+	  $prozente = round ($prozente);   
+	  if( $prozente > 100 )
+	      $prozente = 100;
+	
+	  return  $prozente;
+  }
+  //called by ministat
+  function createStat( $name, $posts, $deleted, $count, $permission )
+  {
+      global $style;
+	  
+	  $width = proz( $posts, $count );
+	  $real  = proz( $posts+$deleted, $count );
+	  
+	  $back = '<table cellpadding="0" cellspacing="0" border="0">
+	  <tr>
+	   <td class="blank">
+	    [smallfont]'.$name.': '.$count.' / '.$posts.( $permission == 1 ? ' / <font color="[col_link]">'.$deleted.'</font>' : '' ).'[smallfontend]
+	   </td>
+	  </tr>
+	  <tr>
+	   <td class="blank">
+	    <img src="templates/'.$style['styletemplate'].'/images/mini2.png" style="width:'.$width.'px; height:10px" border="0" />[smallfont]&nbsp;&nbsp;&nbsp;'.$width.'%[smallfontend]';
+	  if( $permission == 1 )
+	  {
+	      $back .= '<br />
+		   <img src="templates/'.$style['styletemplate'].'/images/mini1.png" style="width:'.$real.'px; height:10px" border="0" /><font color="[col_link]">[smallfont]&nbsp;&nbsp;&nbsp;'.$real.'%[smallfontend]</font>';
+ 	  }
+	  $back .= '</td></tr></table>';
+	  
+	  return $back;
   }
 ?>

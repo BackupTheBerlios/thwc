@@ -1,0 +1,68 @@
+<form action="reply.php" method="post" name="form">
+[formula]
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="border-collapse:collapse">
+ <tr>
+  <td colspan="2" class="header" style="text-align:center">
+   <b>[top]</b>
+  </td>
+ </tr>
+ <tr>
+  <td class="cella" style="width:150px">
+   &nbsp;Autor
+  </td>
+  <td class="cellb">
+   [autor]
+  </td>
+ </tr>
+ [topic]
+ [icon]
+ <tr>
+  <td class="cella" style="width:150px">
+   &nbsp;<a href="boardcode.htm" target="blank">Boardcode</a>
+  </td>
+  <td class="cellb">
+  [tagbar]
+  </td>
+ </tr>
+ <tr>
+  <td valign="top" class="cella" style="width:150px">
+   &nbsp;<b>Text</b><br><br>
+   &nbsp;[smallfont]Smilies sind <b>[smilies]</b><br><br>
+   &nbsp;E-Mail-Funktionen<br>&nbsp;sind <b>[mail]</b>[smallfontend]
+  </td>
+  <td class="cellb">
+   <textarea name="text" cols="80" rows="18" id="border-tab">[text]</textarea>&nbsp;<a href="javascript:textlen()">Textl&auml;nge pr&uuml;ffen</a>
+  </td>
+ </tr>
+ <tr>
+  <td class="cella" style="width:150px">
+   <b>Abbo</b>
+  </td>
+  <td class="cellb" style="padding:0px">
+   &nbsp;<input type="checkbox" name="abbo" value="1"[abbo_yes] />&nbsp;&nbsp;Aktivieren um per Mail &uuml;ber Antworten informiert zu werden. (Nur bei aktivierten Mailfunktionen)
+  </td>
+ </tr>
+ <tr>
+  <td class="cella" style="width:150px">
+   <b>Smilies</b>
+  </td>
+  <td class="cellb" style="padding:0px">
+   &nbsp;<input type="checkbox" name="do_smilies" value="1"[smil_yes] />&nbsp;&nbsp;Textsmilies in Grafiken umwandeln? (Nur wenn Smilies <b>An</b> sind)
+  </td>
+ </tr>
+ <tr>
+  <td class="cella" style="width:150px">
+   <b>Boardcode</b>
+  </td>
+  <td class="cellb" style="padding:0px">
+   &nbsp;<input type="checkbox" name="b_code" value="1"[bcode_yes] />&nbsp;&nbsp;Boardcode in Nachricht aktivieren?
+  </td>
+ </tr>
+ [poll]
+ <tr>
+  <td colspan="2" class="header">
+   <center><input type="submit" value="   Senden   " id="border-tab" /></center>
+  </td>
+ </tr>
+</table>
+</form>

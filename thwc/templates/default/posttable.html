@@ -1,0 +1,67 @@
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+ <tr>
+  <td class="blank" style="text-align:right">
+   [doreply]&nbsp;&nbsp;
+  </td>
+ </tr>
+</table>
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="border-collapse:collapse; table-layout:fixed">
+ <tr>
+  <td class="header" style="width:200px">
+   [smallfont]&nbsp;<b>Autor</b>[smallfontend]
+  </td>
+  <td class="header">
+   [smallfont]&nbsp;<b>Posts</b>&nbsp;&nbsp;[thread_nav][smallfontend]
+  </td>
+ </tr>
+ [posts]
+ <tr>
+  <td class="header" colspan="2">
+   &nbsp;[smallfont][thread_nav]&nbsp;&nbsp;&nbsp;&nbsp;[small_nav][smallfontend]
+  </td>
+ </tr>
+</table>
+<br />
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+ <tr>
+  <td class="blank" style="text-align:right">
+   [doreply]&nbsp;&nbsp;
+  </td>
+ </tr>
+</table>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+ <tr>
+  <form action="board.php">
+  <td class="blank">
+   [jump]
+     &nbsp;&nbsp;<input type="submit" value=" Jump " id="border-tab" />
+  </td>
+  </form>
+  <form action="threadopt.php" method="post">
+  <td class="blank" style="text-align:right">
+    <input type="hidden" name="boardid" value="[b_id]" />
+    <input type="hidden" name="threadid" value="[t_id]" />
+    <input type="hidden" name="page" value="[page]" />
+    <select name="action" size="1" id="tab">
+     <option value="">Admin:</option>
+     <option value="openclose">&nbsp;Schließen/Öffnen</option>
+     <option value="delete">&nbsp;Löschen</option>
+     <option value="move">&nbsp;Verschieben</option>
+     <option value="sticky">&nbsp;Festmachen/Lösen</option>
+    </select>
+    &nbsp;&nbsp;<input type="submit" value=" GO &gt;&gt; " id="border-tab" />
+  </td>
+  </form>
+ </tr>
+</table>
+<br>
+[smallfont]
+&nbsp;<b>Berechtigungen:</b><br>
+&nbsp;Antwort senden: <b>[thread_permission]</b>
+<br /><br />
+&nbsp;<img src="templates/[styletemplate]/images/icon/fullalpha_new.gif" />&nbsp;
+Neue Antwort seit Deinem letzten Besuch<br />
+&nbsp;<img src="templates/[styletemplate]/images/icon/fullalpha.gif" />&nbsp;
+Bereits als gelesen makiert<br />
+[zeichen]
+[smallfontend]
