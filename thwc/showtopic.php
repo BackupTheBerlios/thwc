@@ -1,5 +1,5 @@
 <?php
- /* $Id: showtopic.php,v 1.3 2003/06/20 10:39:08 master_mario Exp $ */
+ /* $Id: showtopic.php,v 1.4 2003/06/24 17:10:54 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -270,7 +270,7 @@
 		     // useroptionen
 			 $options = '&nbsp;<a href="s_profile.php?username='.$user['user_name'].'">'.( $style['profileimage'] != '' ? '<img src="'.$style['profileimage'].'" border="0" />' : 'Profil' ).'</a>&nbsp;||';
 			 if( $config['pm'] == 1 )
-			     $options .= '&nbsp;<a href="pm.php?username='.$user['user_name'].'">'.( $style['messageimage'] != '' ? '<img src="'.$style['messageimage'].'" border="0" />' : 'Privat message' ).'</a>&nbsp;||';
+			     $options .= '&nbsp;<a href="pm.php?action=new&username='.$user['user_name'].'">'.( $style['messageimage'] != '' ? '<img src="'.$style['messageimage'].'" border="0" />' : 'Privat message' ).'</a>&nbsp;||';
 		     $options .= '&nbsp;<a href="search.php?username='.$user['user_name'].'">'.( $style['searchimage'] != '' ? '<img src="'.$style['searchimage'].'" border="0" />' : 'Suchen' ).'</a>';
 		 }
 		 // guest post
@@ -339,7 +339,7 @@
 		 // noch mal optionen
 		 if( U_ID != 0 && $config['report'] == 1 )
 		 {
-		     $options .= ( $options == '' ? '' : '&nbsp;||&nbsp;' ).'<a href="postopt.php?action=report&postid='.$post['post_id'].'">'.( $style['reportimage'] != '' ? '<img src="'.$style['reportimage'].'" border="0" />' : 'Melden' ).'</a>&nbsp;';    
+		     $options .= ( $options == '' ? '' : '&nbsp;||&nbsp;' ).'<a href="report.php?boardid='.$boardid.'&threadid='.$threadid.'&postid='.$post['post_id'].'&page='.$page.'">'.( $style['reportimage'] != '' ? '<img src="'.$style['reportimage'].'" border="0" />' : 'Melden' ).'</a>&nbsp;';    
 		 }
 		 
 		 // TEMPLATE 
