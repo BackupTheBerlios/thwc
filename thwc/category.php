@@ -1,5 +1,5 @@
 <?php
- /* $Id: category.php,v 1.3 2003/06/17 20:22:44 master_mario Exp $ */
+ /* $Id: category.php,v 1.4 2003/06/24 17:12:11 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -66,7 +66,7 @@
      while( $board = db_result( $r_boards ) )
      {
          $P = boardPermissions ( U_GROUPIDS, $board['board_id'] );
-         if( $P[30] == 1 )
+         if( $P[0] == 1 )
          {
              $board_count++;
              $session_var = 'b'.$board['board_id'];
