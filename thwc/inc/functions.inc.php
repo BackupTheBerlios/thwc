@@ -1,5 +1,23 @@
 <?php
-/* $Id: functions.inc.php,v 1.1 2003/06/12 13:59:23 master_mario Exp $ */
+/* $Id: functions.inc.php,v 1.2 2003/06/13 11:32:27 master_mario Exp $ */
+ /*
+          ThWClone - PHP/MySQL Bulletin Board System
+        ==============================================
+          (c) 2003 by
+           Mario Pischel         <mario@aqzone.de>
+
+          download the latest version:
+          https://developer.berlios.de/projects/thwc/
+
+          This  program is  free  software;  you can
+          redistribute it and/or modify it under the
+          terms of the GNU General Public License as
+          published by the Free Software Foundation;
+          either  version 2 of  the License,  or (at
+          your option) any later version.
+
+        ==============================================
+ */
   function Get_Template ( $template )
   {
       if( !file_exists( $template ) )
@@ -370,6 +388,9 @@
   function globalPermissions ( $groupids )
   {
       global $pref;
+	  $len = strlen( $groupids );
+	  $groupids = substr ( $groupids, 1 );
+	  $groupids = substr ( $groupids, 0, $len-2 );
 	  $r_groups = db_query("SELECT 
 	      accessmask,
 		  priority
@@ -385,11 +406,55 @@
       {
           $y = 30-strlen( $rechte );
           for( $x=0; $x<$y; $x++ )
-              $rechte = '0'.$rechte_string;
+              $rechte = '0'.$rechte;
       }
       $rechte = chunk_split ( $rechte, 1, '|' );
-      $rechte = substr ( $rechte, 0, 60 );
       $P = explode( '|', $rechte );
 	  return $P;	  
+  }
+  function boardPermissions ( $groupids, $boardid )
+  {
+      global $pref;
+	  
+	  $len = strlen( $groupids );
+	  $groupids = substr ( $groupids, 1 );
+	  $groupids = substr ( $groupids, 0, $len-2 );
+	  
+	  $r_groupboard = db_query("SELECT
+	      accessmask
+	  FROM ".$pref."groupboard WHERE boardid='$boardid' AND groupid IN (".$groupids.")");
+	  if( db_rows( $r_groupboard ) == 1 )
+	  {
+	      $a_groupboard = db_result( $r_groupboard );
+		  $acces = $a_groupboard['accessmask'];
+		  mysql_free_result( $r_groupboard );
+		  unset( $a_groupboard );
+	  }
+	  else
+	  {
+	      $r_groups = db_query("SELECT 
+	          accessmask,
+		      priority
+	      FROM ".$pref."group WHERE groupid IN (".$groupids.")");
+	      $priority = 0;
+	      while( $a_groups = db_result( $r_groups ) )
+	      {
+	          if( $a_groups['priority'] >= $priority )
+		          $acces = $a_groups['accessmask'];    
+	      }
+		  mysql_free_result( $r_groups );
+		  unset( $a_groups );
+	  }
+	  $rechte = decbin ( intval ( $acces ) ); 
+      if( strlen( $rechte ) < 30 )
+      {
+          $y = 30-strlen( $rechte );
+          for( $x=0; $x<$y; $x++ )
+              $rechte = '0'.$rechte;
+      }
+      $rechte = chunk_split ( $rechte, 1, '|' );
+	  $rechte = substr ( $rechte, 0, 61 );
+      $P = explode( '|', $rechte );
+	  return $P;	 	  
   }
 ?>
