@@ -1,0 +1,64 @@
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="border-collapse:collapse">
+ <tr>
+  <td class="header">&nbsp;[smallfont]<b>Memberlist</b>[smallfontend]</td>
+ </tr>
+ <tr>
+  <td class="cellb">
+   <table width="100%" cellpadding="2" cellspacing="0" border="0">
+    <tr>
+	 <td class="blank">&nbsp;&nbsp;<b>Anzeigeoptionen</b></td>
+	</tr>
+	<tr>
+	 <td class="blank">
+	  <form action="memberlist.php" method="post">
+	   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mitglieder in
+	   <select name="art" id="tab" size="1">
+	    <option value="0" [art0]>aufsteigender</option>
+	    <option value="1" [art1]>absteigender</option>
+	   </select>
+		Reihenfolge anzeigen, geordnet nach
+	   <select name="method" id="tab" size="1">
+	    <option value="0" [met0]>Name</option>
+	    <option value="1" [met1]>E-Mail</option>
+	    <option value="2" [met2]>ICQ</option>
+	    <option value="3" [met3]>Homepage</option>
+	    <option value="4" [met4]>Wohnort</option>
+	    <option value="5" [met5]>Posts</option>
+	    <option value="6" [met6]>Registrierdatum</option>
+	    <option value="7" [met7]>Letztes Posting</option>
+	   </select>
+	 </td>
+	</tr>
+	<tr>
+	 <td class="blank">
+	  <center><input type="submit" value=" Anzeigen " id="border-tab" /></center>
+	  </form>
+	 </td>
+	</tr>
+	<tr>
+	 <td class="blank">
+	  &nbsp;[smallfont]<b>[mem_na]</b>[smallfontend]
+	 </td>
+	</tr>
+   </table>
+  </td>
+ </tr>
+</table>
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="border-collapse:collapse">
+ <tr>
+  <td class="header" width="100">&nbsp;[smallfont]<b>Name</b>[smallfontend]</td>
+  <td class="header">&nbsp;[smallfont]<b>E-Mail</b>[smallfontend]</td>
+  <td class="header">&nbsp;[smallfont]<b>ICQ</b>[smallfontend]</td>
+  <td class="header">&nbsp;[smallfont]<b>Homepage</b>[smallfontend]</td>
+  <td class="header">&nbsp;[smallfont]<b>Wohnort</b>[smallfontend]</td>
+  <td class="header">&nbsp;[smallfont]<b>Posts</b>[smallfontend]</td>
+  <td class="header">&nbsp;[smallfont]<b>Registrierdatum</b>[smallfontend]</td>
+  <td class="header">&nbsp;[smallfont]<b>Letztes Posting</b>[smallfontend]</td>
+ </tr>
+ [members]
+ <tr>
+  <td class="header" colspan="8">
+   &nbsp;[smallfont]<b>[mem_nav]</b>[smallfontend]
+  </td>
+ </tr>
+</table>

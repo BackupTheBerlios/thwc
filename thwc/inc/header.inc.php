@@ -1,5 +1,5 @@
 <?php
-/* $Id: header.inc.php,v 1.7 2003/06/24 17:13:49 master_mario Exp $ */
+/* $Id: header.inc.php,v 1.8 2003/06/24 21:56:39 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -182,8 +182,8 @@
      if( U_ISMOD == 1 )
          $data['headoption'] .= '|| <a href="mod/index.php" target="blank">Modcenter</a> ';
  }
- $data['headoption'] .= '|| <a href="help.php">FAQ</a> || <a href="search.php">Suche</a> ||
- <a href="'.$config['board_url'].'">Home</a> || <a href="stat.php">Statistik</a> ||';
+ $data['headoption'] .= ( $config['meberlist'] == 1 ? '|| <a href="memberlist.php">Memberlist</a> ' : '' ).( $config['guest_calenda'] == 1 ? '|| <a href="calendar.php">Kalender</a> ' : '' ).'|| <a href="help.php">FAQ</a> || '.( $config['guest_search'] == 1 ? '<a href="search.php">Suche</a> ||' : '' ).
+ ( $config['guest_team'] == 1 ? ' <a href="team.php">Team</a> || ' : ' ' ).'<a href="'.$config['board_url'].'">Home</a> ||'.( $config['guest_stats'] == 1 ? ' <a href="stat.php">Statistik</a> ||' : ' ' );
  // Nav_path
  $data['nav_path'] = '&nbsp;<a href="'.$config['board_url'].'" class="bg">'.$config['board_name'].'</a>';
  // Board Style
