@@ -1,5 +1,5 @@
 <?php
- /* $Id: category.php,v 1.2 2003/06/16 18:08:20 master_mario Exp $ */
+ /* $Id: category.php,v 1.3 2003/06/17 20:22:44 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -30,12 +30,17 @@
  $TBoardrow = Get_Template( 'templates/'.$style['styletemplate'].'/index_b_row.html' );
  $TIndex = Get_Template( 'templates/'.$style['styletemplate'].'/boardtable.html' );
  $TBoard = Get_Template( 'templates/'.$style['styletemplate'].'/board.html' );
-
+ 
+ if( $catid == 0 )
+     message ( 'Diese Kategorie gibt es nicht.', 'Fehler', 0 );
+	 
  $r_category = db_query("SELECT
      category_id,
      category_name,
      category_is_open
  FROM ".$pref."category WHERE category_id='$catid'");
+ if( db_rows( $r_category ) != 1 )
+     message ( 'Diese Kategorie gibt es nicht.', 'Fehler', 0 );
 
  $boards = '';
  $a_category = db_result( $r_category );
@@ -81,14 +86,14 @@
                  $threads .= '/<font color="'.$style['col_link'].'">[smallfont]'.$board['threads_del'].'[smallfontend]</font>';
                  $posts .= '/<font color="'.$style['col_link'].'">[smallfont]'.$board['posts_del'].'[smallfontend]</font>';
              }
-             if( $board['last_act_time'] != 0 )
-             {
-                 $last = datum( $board['last_act_time'] );
-                 if( strlen( $board['last_act_thread'] ) > 50 )
-                     $board['last_act_thread'] = substr ( $board['last_act_thread'], 0, 46 ).'...';
-                 $last .= '<br /><a href="showthreads.php?threadid='.$board['last_thread_id'].'">'.$board['last_act_thread'].'</a>';
-                 $last .= '&nbsp;von <a href="s_profile.php?username='.$board['last_act_user'].'">'.$board['last_act_user'].'</a>';
-             }
+				     if( $board['last_act_time'] != 0 )
+				     {
+				         $last = datum ( $board['last_act_time'] );
+					     if( strlen( $board['last_act_thread'] ) > 50 )
+					         $board['last_act_thread'] = substr ( $board['last_act_thread'], 0, 46 ).'...';
+					     $last .= '<br /><a href="showtopic.php?threadid='.$board['last_thread_id'].'&boardid='.$board['board_id'].'&page=last">'.$board['last_act_thread'].'</a>';
+					     $last .= '&nbsp;von <a href="s_profile.php?username='.$board['last_act_user'].'">'.$board['last_act_user'].'</a>';
+				     }
              else
                  $last = '<center>unbekannt</center>';
 

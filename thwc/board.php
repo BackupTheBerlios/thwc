@@ -1,5 +1,5 @@
 <?php
- /* $Id: board.php,v 1.2 2003/06/13 21:37:14 master_mario Exp $ */
+ /* $Id: board.php,v 1.3 2003/06/17 20:18:51 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -105,6 +105,7 @@
          // threadrows--------------------------------
          $r_thread = db_query("SELECT
              thread_id,
+			 board_id,
              replies,
              thread_autor,
              thread_topic,
@@ -113,6 +114,7 @@
              last_act_user,
              thread_icon,
              thread_views,
+			 thread_closed,
              sticky,
              deleted,
              replies_del,
@@ -133,6 +135,8 @@
                      // icon
                      $iconadd = '';
                      $pic = 'icon/'.$thread['thread_icon'];
+					 if( $thread['thread_closed'] == 1 )
+					     $pic = 'closed';
                      if( U_ID != 0 )
                      {
                          if( $_SESSION[$session_var] < $thread['last_post_id'] )
@@ -147,7 +151,7 @@
                      $topic = '&nbsp;';
                      if( $thread['sticky'] == 1 )
                          $topic .= '<b>'.$config['sticky_word'].':</b>&nbsp;';
-                     $topic .= '<a href="showtopic.php?threadid='.$thread['thread_id'].'">'.$thread['thread_topic'].'</a>';
+                     $topic .= '<a href="showtopic.php?threadid='.$thread['thread_id'].'&boardid='.$thread['board_id'].'">'.$thread['thread_topic'].'</a>';
                      // postnav ------------------------------
                      $post_count = $thread['replies']+1;
                      if( P_SHOWDELETED == 1 )
