@@ -1,5 +1,5 @@
 <?php
-/* $Id: functions.inc.php,v 1.5 2003/06/17 20:20:00 master_mario Exp $ */
+/* $Id: functions.inc.php,v 1.6 2003/06/20 10:40:57 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -157,6 +157,8 @@
               $TMessage = Get_Template( 'templates/'.$style['styletemplate'].'/message.html' );
           if( $mode == 1 )
               $TMessage = Get_Template( 'templates/'.$style['styletemplate'].'/message_back.html' );
+          if( $mode == 2 )
+              $TMessage = Get_Template( 'templates/'.$style['styletemplate'].'/weiter.html' );
           $TMessage = str_replace( '[message]', $mess, $TMessage );
           $TMessage = str_replace( '[messagetopic]', $messtopic, $TMessage );
           $TBoard = str_replace( '[boardtable]', $TMessage, $TBoard );
@@ -398,7 +400,7 @@
           $back = '<b>'.$pages.'</b> Seite(n):';
       if( $page > 4 )
       {
-          $back .= ' [<a href="'.$datei.'&page=1" class="bg">erste Seite</a>] ...';
+          $back .= ' [<a href="'.$datei.'&page=1" class="'.( $mode == 0 ? 'bg' : 'head' ).'">erste Seite</a>] ...';
       }
       $end = $page+3;
       if( $end > $pages ) { $end = $pages; }
@@ -412,13 +414,13 @@
               }
               else
               {
-                  $back .= ' [<a href="'.$datei.'&page='.$x.'" class="bg">'.$x.'</a>]';
+                  $back .= ' [<a href="'.$datei.'&page='.$x.'" class="'.( $mode == 0 ? 'bg' : 'head' ).'">'.$x.'</a>]';
               }
           }
       }
       if( $x <= $pages )
       {
-          $back .= ' ... [<a href="'.$datei.'&page=last" class="bg">letzte Seite</a>]';
+          $back .= ' ... [<a href="'.$datei.'&page=last" class="'.( $mode == 0 ? 'bg' : 'head' ).'">letzte Seite</a>]';
       }
 
           return $back;
@@ -571,4 +573,62 @@
 	  
 	  return $back;
   }
+  // called by edit.php
+  function board_nav( $boardid, $threadid, $nav_path )
+  {
+      global $TBoard, $pref;
+	  
+      // thread --
+     $r_thread = db_query("SELECT
+         thread_id,
+	     thread_topic
+     FROM ".$pref."thread WHERE thread_id='$threadid' AND board_id='$boardid'");
+     if( db_rows( $r_thread ) != 1 )
+         message ( 'Sorry! Fehlerhafter Link.', 'Fehler', 0 );
+     else
+         $thread = db_result( $r_thread );
+     // board --
+     $r_board = db_query("SELECT 
+	     board_id,
+		 board_name,
+		 category
+	 FROM ".$pref."board WHERE board_id='$boardid'");
+	 $board = db_result( $r_board );
+	 // category --
+	 $r_category = db_query("SELECT
+	     category_id,
+		 category_name
+	 FROM ".$pref."category WHERE category_id='$board[category]'");
+	 $category = db_result( $r_category );
+     $nav_path .= '&nbsp;&gt;&gt;&nbsp;<a href="category.php?catid='.$category['category_id'].'" 
+     class="bg">'.( strlen($category['category_name']) > 30 ? substr ( $category['category_name'], 0, 27).'...' : $category['category_name'] ).'</a>';
+     $nav_path .= '&nbsp;&gt;&gt;&nbsp;<a href="board.php?boardid='.$board['board_id'].'" 
+     class="bg">'.( strlen($board['board_name']) > 50 ? substr ( $board['board_name'], 0, 47).'...' : $board['board_name'] ).'</a>';
+     $nav_path .= '&nbsp;&gt;&gt;&nbsp;<a href="showtopic.php?boardid='.$board['board_id'].'&threadid='.$thread['thread_id'].'" 
+     class="bg">'.$thread['thread_topic'].'</a>';
+	 
+	 mysql_free_result( $r_thread );
+	 mysql_free_result( $r_board );
+	 mysql_free_result( $r_category );
+	 
+	 return $nav_path;
+  }
+ function encodeX($string)
+ {
+    $string = str_replace('"', '&quot;', $string);
+    $string = str_replace("'", '&prime;', $string);
+    $string = str_replace('&', '&amp;', $string);
+    $string = str_replace('<', '&lt;', $string);
+    $string = str_replace('>', '&gt;', $string);
+    return $string;
+ }
+ function decodeX($string)
+ {
+    $string = str_replace('&quot;', '"', $string);
+    $string = str_replace('&prime;', "'", $string);
+    $string = str_replace('&amp;', '&', $string);
+    $string = str_replace('&lt;', '<', $string);
+    $string = str_replace('&gt;', '>', $string);
+    return $string;
+ }
 ?>
