@@ -1,5 +1,5 @@
 <?php
- /* $Id: online.php,v 1.1 2003/07/01 16:33:40 master_mario Exp $ */
+ /* $Id: online.php,v 1.2 2003/07/01 22:30:31 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -33,14 +33,20 @@
  {
      while( $a_onuser = db_result( $r_onuser ) )
 	 {
-	     $onlinecount++;
-	     $usercount++;
 		 if( $a_onuser['user_ishidden'] == 0 )
+		 {
+	         $onlinecount++;
+	         $usercount++;
 		     $onuser[] = '<a href="s_profile.php?username='.$a_onuser['user_name'].'">'.$a_onuser['user_name'].'</a>';
+		 }
 		 else
 		 {
 		     if( P_CANSEEINVIS == 1 )
+			 {
+	             $onlinecount++;
+	             $usercount++;
 			     $onuser[] = '<a href="s_profile.php?username='.$a_onuser['user_name'].'">'.$a_onuser['user_name'].'</a>(Versteckt)';
+			 }
 		 }
 	 }
  }
@@ -69,13 +75,18 @@
  {
      while( $a_24user = db_result( $r_24user ) )
 	 {
-	     $onlinecount24++;
 		 if( $a_24user['user_ishidden'] == 0 )
+		 {
+	         $onlinecount24++;
    		     $onuser24[] = '<a href="s_profile.php?username='.$a_24user['user_name'].'">'.$a_24user['user_name'].'</a>';
+		 }
 		 else
 		 {
 		     if( P_CANSEEINVIS == 1 )
+			 {
+			     $onlinecount24++;
 			     $onuser24[] = '<a href="s_profile.php?username='.$a_24user['user_name'].'">'.$a_24user['user_name'].'</a>(Versteckt)';
+			 }
 		 }
 	 }
  } 

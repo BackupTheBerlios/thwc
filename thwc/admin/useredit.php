@@ -1,5 +1,5 @@
 <?php
- /* $Id: useredit.php,v 1.2 2003/06/13 11:33:22 master_mario Exp $ */
+ /* $Id: useredit.php,v 1.3 2003/07/01 22:31:21 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -51,7 +51,8 @@
      'user_ishidden' => array('Unsichtbar?', '', 6),
      'show_sig' => array('Signaturen zeigen?', '', 6),
      'user_nomail' => array('E-Mail verbergen?', '', 6),
-     'noPM_message' => array('PM MessageBox?', '(Messagebox bei neuen PMs)', 6)
+     'noPM_message' => array('PM MessageBox?', '(Messagebox bei neuen PMs)', 6),
+     'user_team' => array('Auf Teampage anzeigen?', '', 6)
  );
  // FUNKTIONEN
  function in_group($groupids, $groupid)
