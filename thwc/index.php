@@ -1,5 +1,5 @@
 <?php
- /* $Id: index.php,v 1.5 2003/06/16 18:08:20 master_mario Exp $ */
+ /* $Id: index.php,v 1.6 2003/06/17 20:15:50 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -45,6 +45,7 @@
      $boards = '';
      while( $a_category = db_result( $r_category ) )
 	 {
+	     $new_cat = 0;
 		 $session_cat = 'c'.$a_category['category_id']; // openclose Variable
 	     if( $_SESSION['openclose'] == 0 ) // wenn nicht dann erzeugen
 		 {
@@ -72,7 +73,7 @@
 		     while( $board = db_result( $r_boards ) )
 			 {
                  $P = boardPermissions ( U_GROUPIDS, $board['board_id'] );
-				 if( $P[30] == 1 )
+				 if( $P[0] == 1 )
 				 {
 			         $board_count++;
 				 
@@ -82,7 +83,11 @@
 		    		 if( U_ID != 0 )
 			    	 {
 				         if( $board['last_post_id'] > $_SESSION[$session_var] && $_SESSION[$session_var] != 0 )
-				         {    $gif = '_new'; $new_topic = 1;    } 
+				         {
+						     $gif = '_new'; 
+							 $new_topic = 1;    
+							 $new_cat = 1;
+						 } 
 				     }
 		    		 $boardname = '<a href="board.php?boardid='.$board['board_id'].'"><b>'.$board['board_name'].'</b></a>';
 			    	 $boardname .= '<br />[smallfont]'.$board['board_under'].'[smallfontend]';
@@ -120,11 +125,11 @@
 	         $catname = '<a href="category.php?catid='.$a_category['category_id'].'"><b>'.$a_category['category_name'].'</b></a>';	
 			 $catname .= '&nbsp;<font size="1">[<a href="open_cat.php?catid='.$a_category['category_id'].'">open/close</a>]</font>'; 
 		     $catimage = '';
-			 if( $new_topic == 1 ) $catimage = '_new';
+			 if( $new_cat == 1 ) $catimage = '_new';
 		 
 		     $row = $TCatrow;
 			 $row = str_replace( '[category_name]', $catname, $row );
-			 $row = str_replace( '[catimage]', '<img src="templates/'.$style['styletemplate'].'/images/board'.$catimage.'.gif" border="0" width="20" height="8">', $row );
+			 $row = str_replace( '[catimage]', '<img src="templates/'.$style['styletemplate'].'/images/board'.$catimage.'.gif" border="0" width="40" height="16">', $row );
 			 $catblock = $row;
 			 if( $_SESSION[$session_cat] == 1 )
 			 {
