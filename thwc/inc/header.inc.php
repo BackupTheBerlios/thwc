@@ -1,5 +1,5 @@
 <?php
-/* $Id: header.inc.php,v 1.3 2003/06/13 11:47:54 master_mario Exp $ */
+/* $Id: header.inc.php,v 1.4 2003/06/13 19:01:37 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -19,13 +19,14 @@
         ==============================================
  */
  error_reporting(E_ALL);
- 
+
  if( isset($HTTP_GET_VARS) ) extract($HTTP_GET_VARS);
  if( isset($HTTP_PUT_VARS) ) extract($HTTP_PUT_VARS);
  if( isset($HTTP_POST_VARS) ) extract($HTTP_POST_VARS);
-		
+ 
  include ( 'inc/config.inc.php' );
  include ( 'inc/functions.inc.php' );
+ 
  /* DB_connect */
  $mysql = @mysql_connect($m_host, $m_user, $m_pw);
  $db    = @mysql_select_db($m_db);
@@ -36,10 +37,10 @@
      bitte versuche es sp&#xE4;ter noch einmal.';
      exit;
  }
- 
+
  //  leere Variablen definieren
- 
- 
+
+
  //  read registry
  $r_registry = db_query("SELECT
      keyname, keyvalue
@@ -50,23 +51,22 @@
  }
  mysql_free_result( $r_registry );
  unset( $a_registry );
- 
+
  // Systemzeit
  $board_time = time()+$config['diff_board_time'];
- 
- 
+
  // session_start() and usercheck
- session_start(); 
+ session_start();
  $sid = session_id();
- 	 
+
  $r_user = db_query("SELECT
      user_id,
-	 user_name,
-	 user_ismod,
-	 user_isadmin,
-	 groupids,
-	 is_uradmin,
-	 user_styleid
+         user_name,
+         user_ismod,
+         user_isadmin,
+         groupids,
+         is_uradmin,
+         user_styleid
  FROM ".$pref."user WHERE user_session='$sid'");
  if( db_rows( $r_user ) == 1 )
  {
@@ -78,7 +78,7 @@
      define( "U_ISURADMIN", $a_user['is_uradmin'] );
      define( "U_GROUPIDS", $a_user['groupids'] );
      define( "U_STYLEID", $a_user['user_styleid'] );
-	 $data['login'] = '';
+         $data['login'] = '';
  }
  else
  {
@@ -90,55 +90,56 @@
      define( "U_GROUPIDS", ','.$config['guest_groupid'].',' );
      define( "U_STYLEID", '0' );
  }
- 
- 
+
+
  // _groups lesen und Rechtestring erstellen
  if( isset( $boardid ) )
  {
-    boardPermissions ( U_GROUPIDS, $boardid );
- 	define('P_VIEW', $P[30]);
- 	define('P_REPLY', $P[29]);
- 	define('P_POSTNEW', $P[28]);
- 	define('P_CLOSE', $P[27]);
- 	define('P_DELTHREAD', $P[26]);
- 	define('P_OMOVE', $P[25]);
- 	define('P_DELPOST', $P[24]);
- 	define('P_EDIT', $P[23]);
- 	define('P_OCLOSE', $P[22]);
- 	define('P_ODELTHREAD', $P[21]);
- 	define('P_ODELPOST', $P[20]);
- 	define('P_OEDIT', $P[19]);
- 	define('P_TOP', $P[18]);
- 	define('P_EDITCLOSED', $P[17]);
- 	define('P_IP', $P[16]);
- 	define('P_EDITTOPIC', $P[15]);
- 	define('P_NOFLOODPROT', $P[14]);
- 	define('P_NOEDITLIMIT', $P[13]);
- 	define('P_CANSEEINVIS', $P[12]);
- 	define('P_NOPMLIMIT', $P[11]);
- 	define('P_INTEAM', $P[10]);
- 	define('P_CEVENT', $P[9]);
- 	define('P_SHOWDELETED', $P[8]);
- 	define('P_POLLNEW', $P[7]);
- 	define('P_DELPOLL', $P[6]);
- 	define('P_CLOSEPOLL', $P[5]);
- 	define('P_EDITPOLL', $P[4]);
- 	define('P_ODELPOLL', $P[3]);
- 	define('P_OCLOSEPOLL', $P[2]);
- 	define('P_OEDITPOLL', $P[1]);
- 	define('P_OMOVEPOLL', $P[0]);
+    $P = boardPermissions ( U_GROUPIDS, $boardid );
+         define('P_VIEW', $P[30]);
+         define('P_REPLY', $P[29]);
+         define('P_POSTNEW', $P[28]);
+         define('P_CLOSE', $P[27]);
+         define('P_DELTHREAD', $P[26]);
+         define('P_OMOVE', $P[25]);
+         define('P_DELPOST', $P[24]);
+         define('P_EDIT', $P[23]);
+         define('P_OCLOSE', $P[22]);
+         define('P_ODELTHREAD', $P[21]);
+         define('P_ODELPOST', $P[20]);
+         define('P_OEDIT', $P[19]);
+         define('P_TOP', $P[18]);
+         define('P_EDITCLOSED', $P[17]);
+         define('P_IP', $P[16]);
+         define('P_EDITTOPIC', $P[15]);
+         define('P_NOFLOODPROT', $P[14]);
+         define('P_NOEDITLIMIT', $P[13]);
+         define('P_CANSEEINVIS', $P[12]);
+         define('P_NOPMLIMIT', $P[11]);
+         define('P_INTEAM', $P[10]);
+         define('P_CEVENT', $P[9]);
+         define('P_SHOWDELETED', $P[8]);
+         define('P_POLLNEW', $P[7]);
+         define('P_DELPOLL', $P[6]);
+         define('P_CLOSEPOLL', $P[5]);
+         define('P_EDITPOLL', $P[4]);
+         define('P_ODELPOLL', $P[3]);
+         define('P_OCLOSEPOLL', $P[2]);
+         define('P_OEDITPOLL', $P[1]);
+         define('P_OMOVEPOLL', $P[0]);
+         unset( $P );
  }
  else
  {
     $P = globalPermissions ( U_GROUPIDS );
- 	define('P_CANSEEINVIS', $P[12]);
- 	define('P_NOPMLIMIT', $P[11]);
- 	define('P_INTEAM', $P[10]);
- 	define('P_CEVENT', $P[9]);
- 	define('P_SHOWDELETED', $P[8]);
-	unset( $P );
+         define('P_CANSEEINVIS', $P[12]);
+         define('P_NOPMLIMIT', $P[11]);
+         define('P_INTEAM', $P[10]);
+         define('P_CEVENT', $P[9]);
+         define('P_SHOWDELETED', $P[8]);
+         unset( $P );
  }
- 
+
  // create head options
  $data['board_name'] = $config['board_name'];
  if( U_ID == 0 )
@@ -153,7 +154,7 @@
      if( U_ISADMIN == 1 )
          $data['headoption'] .= '|| <a href="mod/index.php" target="blank">Modcenter</a> || <a href="admin/index.php" target="blank">Admincenter</a> ';
      if( U_ISMOD == 1 )
-         $data['headoption'] .= '|| <a href="mod/index.php" target="blank">Modcenter</a> ';     
+         $data['headoption'] .= '|| <a href="mod/index.php" target="blank">Modcenter</a> ';
  }
  $data['headoption'] .= '|| <a href="help.php">FAQ</a> || <a href="search.php">Suche</a> ||
  <a href="'.$config['board_url'].'">Home</a> || <a href="stat.php">Statistik</a> ||';
@@ -163,16 +164,16 @@
  $where = "styleid='".U_STYLEID."'";
  if( U_STYLEID == 0 )
  {
-     $where = "styleisdefault='1'";	
+     $where = "styleisdefault='1'";
      if( isset( $boardid ) )
-	 {
-	     $r_boardstyle = db_query("SELECT
-		     styleid
-	     FROM ".$pref."board WHERE board_id='$boardid'");
-		 $a_boardstyle = db_result( $r_boardstyle );
-		 if( $a_boardstyle['styleid'] != 0 )
-		     $where = "styleid='".$a_boardstyle['styleid']."'";
-	 }
+         {
+             $r_boardstyle = db_query("SELECT
+                     styleid
+             FROM ".$pref."board WHERE board_id='$boardid'");
+                 $a_boardstyle = db_result( $r_boardstyle );
+                 if( $a_boardstyle['styleid'] != 0 )
+                     $where = "styleid='".$a_boardstyle['styleid']."'";
+         }
  }
  $r_style = db_query("SELECT
      *
@@ -180,8 +181,14 @@
  $style = db_result( $r_style );
  $style['smallfont'] = '<font size="1">';
  $style['smallfontend'] = '</font>';
- 
+
  if( U_ID == 0 )
-	 $data['login'] = Get_Template( 'templates/'.$style['styletemplate'].'/login.html' );
+         $data['login'] = Get_Template( 'templates/'.$style['styletemplate'].'/login.html' );
  $data['javascript'] = '';
+ // JUMP 
+ if( isset( $boardid ) )
+ {
+     if( $boardid < 0 )
+	     message_redirect('Du wirst zur gew&uuml;nschten Kategorie weiter geleitet, bitte warten ...', 'category.php?catid='.abs( $boardid ) );
+ }
 ?>
