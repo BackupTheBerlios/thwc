@@ -1,5 +1,5 @@
 <?php
-/* $Id: header.inc.php,v 1.5 2003/06/16 18:14:34 master_mario Exp $ */
+/* $Id: header.inc.php,v 1.6 2003/06/17 20:20:00 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -61,14 +61,15 @@
 
  $r_user = db_query("SELECT
      user_id,
-         user_name,
-         user_ismod,
-         user_isadmin,
-         groupids,
-         is_uradmin,
-         user_styleid,
-		 post_count,
-		 user_oldsavet
+     user_name,
+     user_ismod,
+     user_isadmin,
+     groupids,
+     is_uradmin,
+     user_styleid,
+	 post_count,
+	 user_oldsavet,
+	 user_lastpostt
  FROM ".$pref."user WHERE user_session='$sid'");
  if( db_rows( $r_user ) == 1 )
  {
@@ -82,6 +83,7 @@
      define( "U_STYLEID", $a_user['user_styleid'] );
 	 define( "U_OLDTIME", $a_user['user_oldsavet'] );
 	 define( "U_COUNT", $a_user['post_count'] );
+	 define( "U_LAST", $a_user['user_lastpostt'] );
      $data['login'] = '';
  }
  else
@@ -93,6 +95,20 @@
      define( "U_ISURADMIN", '0' );
      define( "U_GROUPIDS", ','.$config['guest_groupid'].',' );
      define( "U_STYLEID", '0' );
+	 $r_guest = db_query("SELECT
+	     last_act_time
+	 FROM ".$pref."guest WHERE session_id='$sid'");
+	 if( db_rows( $r_guest ) == 1 )
+	 {
+	     $a_guest = db_result( $r_guest );
+	     define( "U_LAST", $a_guest['last_act_time'] );
+	 }
+	 else
+	 {
+	     define( "U_LAST", 0 );
+		 db_query("INSERT INTO ".$pref."guest SET
+		     session_id='$sid'");
+	 }
  }
 
 

@@ -1,5 +1,5 @@
 <?php
- /* $Id: groups.php,v 1.3 2003/06/16 18:09:26 master_mario Exp $ */
+ /* $Id: groups.php,v 1.4 2003/06/17 20:19:21 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -87,7 +87,7 @@
      P_ODELPOLL => 'Kann Umfragen anderer l&ouml;schen?',
      P_OCLOSEPOLL => 'Kann Umfragen anderer schliessen?',
      P_OEDITPOLL => 'Kann Umfragen anderer editieren?',
-     P_OMOVEPOLL => 'Kann Umfragen verschieben?',
+     P_OMOVEPOLL => 'Kann Umfragen verschieben?',       // nicht mehr verwendet !!!!!!!!!!!
  );
 
  $p_globalonly = array(
@@ -431,7 +431,7 @@
          name,
          accessmask,
          title,
-         titlepriority
+         priority
      FROM ".$pref."group WHERE groupid='".$_GET['groupid']."'");
      $group = db_result( $r_group );
      $data['work'] = '<b>Edit group</b><br><br>';
@@ -542,7 +542,7 @@
              name='".addslashes($_POST['name'])."',
              accessmask='$accessmask',
              title='".addslashes($_POST['title'])."',
-             titlepriority='$_POST[titlepriority]'
+             priority='$_POST[titlepriority]'
          WHERE groupid='$_POST[groupid]'");
          $data['work'] = 'Gruppe wurde editiert!';
      }

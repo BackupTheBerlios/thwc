@@ -1,5 +1,5 @@
 <?php
-/* $Id: functions.inc.php,v 1.4 2003/06/16 18:14:57 master_mario Exp $ */
+/* $Id: functions.inc.php,v 1.5 2003/06/17 20:20:00 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -452,15 +452,18 @@
                       $accessmask = $a_groups['accessmask'];
           }
           $rechte = decbin ( intval ( $accessmask ) );
-      if( strlen( $rechte ) < 30 )
+      if( strlen( $rechte ) < 31 )
       {
-          $y = 30-strlen( $rechte );
+          $y = 31-strlen( $rechte );
           for( $x=0; $x<$y; $x++ )
               $rechte = '0'.$rechte;
       }
       $rechte = chunk_split ( $rechte, 1, '|' );
+      $rechte = strrev ( $rechte );
+      $rechte = substr ( $rechte, 1 );
       $P = explode( '|', $rechte );
-          return $P;
+	  
+      return $P;
   }
   function boardPermissions ( $groupids, $boardid )
   {
@@ -496,17 +499,18 @@
                   unset( $a_groups );
           }
           $rechte = decbin ( intval ( $acces ) );
-      if( strlen( $rechte ) < 30 )
+      if( strlen( $rechte ) < 31 )
       {
-          $y = 30-strlen( $rechte );
+          $y = 31-strlen( $rechte );
           for( $x=0; $x<$y; $x++ )
               $rechte = '0'.$rechte;
       }
       $rechte = chunk_split ( $rechte, 1, '|' );
-          $rechte = substr ( $rechte, 0, 61 );
       $rechte = strrev ( $rechte );
+      $rechte = substr ( $rechte, 1 );
       $P = explode( '|', $rechte );
-          return $P;
+	  
+      return $P;
   }
   // new Posts ----------------------
   function setNewposts( $last_act )
@@ -521,24 +525,11 @@
           {
               $session_var = 'b'.$a_boards['board_id'];
               $r_post_id = db_query("SELECT
-                  MIN(post_id),
-                  COUNT(post_id)
-              FROM ".$pref."post WHERE board_id='$a_boards[board_id]' AND post_time>'$last_act'");
+                  MAX(post_id)
+              FROM ".$pref."post WHERE board_id='$a_boards[board_id]' AND post_time<'$last_act'");
               $a_post_id = db_result( $r_post_id );
-                  list( $a, $b) = each($a_post_id);
-              if( $b == 0 )
-              {
-                  $r_max_post = db_query("SELECT
-                      MAX(post_id)
-                  FROM ".$pref."post WHERE board_id='$a_boards[board_id]'");
-                  $a_max_post = db_result( $r_max_post );
-                      list(, $a ) = each($a_max_post);
-                  $_SESSION[$session_var] = $a;
-              }
-              else
-              {
-                  $_SESSION[$session_var] = $a-1;
-              }
+              list(, $a ) = each($a_post_id);
+              $_SESSION[$session_var] = $a;
           } // while
 	      $_SESSION['newpost'] = 1;
       } // if
@@ -547,7 +538,7 @@
   function proz( $hundert, $anteil )
   {
       $einpro = @bcdiv( $hundert, 100, 2 );
-	  $prozente = bcdiv( $anteil, $einpro, 2 );
+	  $prozente = @bcdiv( $anteil, $einpro, 2 );
 	  $prozente = round ($prozente);   
 	  if( $prozente > 100 )
 	      $prozente = 100;
