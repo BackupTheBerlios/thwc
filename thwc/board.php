@@ -1,5 +1,5 @@
 <?php
- /* $Id: board.php,v 1.3 2003/06/17 20:18:51 master_mario Exp $ */
+ /* $Id: board.php,v 1.4 2003/06/20 10:40:04 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -162,11 +162,11 @@
                          $thread_pages++;
                      $topic_add = '';
                      if( $thread_pages > 1 )
-                         $topic_add = '(Seiten: <a href="showtopic.php?threadid='.$thread['thread_id'].'&page=1">1</a>';
+                         $topic_add = '(Seiten: <a href="showtopic.php?threadid='.$thread['thread_id'].'&boardid='.$board['board_id'].'&page=1">1</a>';
                      for( $x=2; $x<4; $x++ )
                      {
                          if( $x <= $thread_pages )
-                             $topic_add .= ' <a href="showtopic.php?threadid='.$thread['thread_id'].'&page='.$x.'">'.$x.'</a>';
+                             $topic_add .= ' <a href="showtopic.php?threadid='.$thread['thread_id'].'&boardid='.$board['board_id'].'&page='.$x.'">'.$x.'</a>';
                      }
                      if( $thread_pages > 3 )
                      {
@@ -175,7 +175,7 @@
                          for( $x=$show_links_from; $x<=$thread_pages; $x++ )
                          {
                              if( $x > 3 )
-                                 $topic_add .= ' <a href="showtopic.php?threadid='.$thread['thread_id'].'&page='.$x.'">'.$x.'</a>';
+                                 $topic_add .= ' <a href="showtopic.php?threadid='.$thread['thread_id'].'&boardid='.$board['board_id'].'&page='.$x.'">'.$x.'</a>';
                          }
                      }
                      if( $thread_pages > 1 )
