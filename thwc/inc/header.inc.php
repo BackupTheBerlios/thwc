@@ -1,5 +1,5 @@
 <?php
-/* $Id: header.inc.php,v 1.11 2003/07/01 16:37:21 master_mario Exp $ */
+/* $Id: header.inc.php,v 1.12 2003/07/05 17:10:16 master_mario Exp $ */
  /*
           ThWClone - PHP/MySQL Bulletin Board System
         ==============================================
@@ -167,24 +167,34 @@
  }
  // create head options
  $data['board_name'] = $config['board_name'];
- if( U_ID == 0 )
- {
-     $data['headoption'] = '|| <a href="register.php">Registrieren</a> ';
-     $data['headoption'] .= ( $config['guest_memberlist'] == 1 ? '|| <a href="memberlist.php">Memberlist</a> ' : '' ).( $config['guest_calenda'] == 1 && $config['calendar'] == 1 ? '|| <a href="calendar.php">Kalender</a> ' : '' ).'|| <a href="help.php">FAQ</a> || '.( $config['guest_search'] == 1 ? '<a href="search.php">Suche</a> ||' : '' ).
-     ( $config['guest_team'] == 1 ? ' <a href="team.php">Team</a> || ' : ' ' ).'<a href="'.$config['board_url'].'">Home</a> ||'.( $config['guest_stats'] == 1 ? ' <a href="stat.php">Statistik</a> ||' : ' ' );
- }
- else
- {
-     $data['headoption'] = ( $config['pm'] == 1 ? '|| <a href="pm.php">Private Messages</a> ' : '' ).'|| <a href="profil.php">Profil</a> ||
-     <a href="logout.php">Logout</a> || <a href="memberlist.php">Memberlist</a> ||'
-     .( $config['calendar'] == 1 ? ' <a href="calendar.php">Kalender</a> ||' : '' ).' <a href="team.php">Team</a> ';
-     if( U_ISADMIN == 1 )
-         $data['headoption'] .= '|| <a href="mod/index.php" target="blank">Modcenter</a> || <a href="admin/index.php" target="blank">Admincenter</a> ';
-     if( U_ISMOD == 1 )
-         $data['headoption'] .= '|| <a href="mod/index.php" target="blank">Modcenter</a> ';
-     $data['headoption'] .= '|| <a href="help.php">FAQ</a> || <a href="search.php">Suche</a> ||
-     <a href="'.$config['board_url'].'">Home</a> || <a href="stat.php">Statistik</a> ||';
- }
+ $headoption = array();
+ 
+ if( U_ID < 1 )
+     $headoption[] = '<a href="register.php">Registrieren</a>';
+ if( $config['pm'] && U_ID > 0 )
+     $headoption[] = '<a href="pm.php">Private Messages</a>';
+ if( U_ID > 0 )
+     $headoption[] = '<a href="profil.php">Profil</a>';
+ if( U_ID > 0 )
+     $headoption[] = '<a href="logout.php">Logout</a>';
+ if( U_ID > 0 || $config['guest_memberlist'] )
+     $headoption[] = '<a href="memberlist.php">Memberlist</a>';
+ if( ( U_ID > 0 && $config['calendar'] ) || ( $config['calendar'] && $config['guest_calenda'] ) )
+     $headoption[] = '<a href="calendar.php">Kalender</a>';
+ if( U_ID > 0 || $config['guest_team'] )
+     $headoption[] = '<a href="team.php">Team</a>';
+ if( U_ISMOD || U_ISADMIN )
+     $headoption[] = '<a href="mod/index.php" target="blank">Modcenter</a>';
+ if( U_ISADMIN )
+     $headoption[] = '<a href="admin/index.php" target="blank">Admincenter</a>';
+ $headoption[] = '<a href="help.php">FAQ</a>';
+ if( U_ID > 0 || $config['guest_search'] )
+     $headoption[] = '<a href="search.php">Suche</a>';
+ $headoption[] = '<a href="'.$config['board_url'].'">Home</a>';
+ if( $config['statistik'] && ( U_ID > 0 || $config['guest_stats'] ) )
+     $headoption[] = '<a href="stat.php">Statistik</a>';
+		 
+ $data['headoption'] = implode( ' || ', $headoption );
  // Nav_path
  $data['nav_path'] = '&nbsp;<a href="'.$config['board_url'].'" class="bg">'.$config['board_name'].'</a>';
  // Board Style
@@ -211,7 +221,7 @@
  $style['smallfontend'] = '</font>';
  // script basename
  $basename = basename($HTTP_SERVER_VARS["SCRIPT_NAME"]);
- $data['loginscript'] = 'index.php';
+ $data['loginscript'] = $basename;
  if( $basename == 'category.php' )
      $data['loginscript'] = $basename.'?catid='.$catid;	
  if( $basename == 'board.php' )
